@@ -4,8 +4,12 @@
 package grpc
 
 import (
+	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -137,4 +141,86 @@ var fileDescriptor_767a49518b351716 = []byte{
 	0x29, 0xf7, 0xfd, 0xe6, 0x42, 0xbb, 0x40, 0xb3, 0xb4, 0xf8, 0xbb, 0xb0, 0x47, 0x66, 0x10, 0x4d,
 	0xaf, 0xb9, 0xc1, 0x5e, 0x0c, 0x86, 0xa3, 0x35, 0xa5, 0xb1, 0xa3, 0x6c, 0x89, 0xbf, 0xe8, 0xf4,
 	0x0d, 0x00, 0x00, 0xff, 0xff, 0x15, 0x05, 0x97, 0xb6, 0xe4, 0x00, 0x00, 0x00,
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// ClientServiceClient is the client API for ClientService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type ClientServiceClient interface {
+	// Sends a greeting
+	JugadorJugar(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*Recibo, error)
+}
+
+type clientServiceClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewClientServiceClient(cc *grpc.ClientConn) ClientServiceClient {
+	return &clientServiceClient{cc}
+}
+
+func (c *clientServiceClient) JugadorJugar(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*Recibo, error) {
+	out := new(Recibo)
+	err := c.cc.Invoke(ctx, "/chat.ClientService/JugadorJugar", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ClientServiceServer is the server API for ClientService service.
+type ClientServiceServer interface {
+	// Sends a greeting
+	JugadorJugar(context.Context, *Jugada) (*Recibo, error)
+}
+
+// UnimplementedClientServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedClientServiceServer struct {
+}
+
+func (*UnimplementedClientServiceServer) JugadorJugar(ctx context.Context, req *Jugada) (*Recibo, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method JugadorJugar not implemented")
+}
+
+func RegisterClientServiceServer(s *grpc.Server, srv ClientServiceServer) {
+	s.RegisterService(&_ClientService_serviceDesc, srv)
+}
+
+func _ClientService_JugadorJugar_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Jugada)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClientServiceServer).JugadorJugar(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/chat.ClientService/JugadorJugar",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClientServiceServer).JugadorJugar(ctx, req.(*Jugada))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _ClientService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "chat.ClientService",
+	HandlerType: (*ClientServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "JugadorJugar",
+			Handler:    _ClientService_JugadorJugar_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "chat/chat.proto",
 }

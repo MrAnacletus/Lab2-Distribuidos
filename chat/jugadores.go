@@ -7,7 +7,7 @@ import (
 	// "net"
 	// "sync"
 	"time"
-	pb "github.com/MrAnacletus/Lab2-Distribuidos/chat/chat"
+	pb "github.com/MrAnacletus/Lab2-Distribuidos/chat/grpc"
 
 	"google.golang.org/grpc"
 )
