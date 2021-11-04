@@ -1,4 +1,4 @@
-package main
+package chat
 
 import (
 	"context"
@@ -7,7 +7,7 @@ import (
 	// "net"
 	// "sync"
 	"time"
-	pb "github.com/MrAnacletus/Lab2-Distribuidos/tree/main/protos"
+	pb "github.com/MrAnacletus/Lab2-Distribuidos/protos"
 
 	"google.golang.org/grpc"
 )
@@ -19,7 +19,7 @@ type Jugada struct {
 }
 
 
-func EnviarJugada(id int32, jugador int32, carta int32) {
+func Jugador(id int32, jugador int32, carta int32) {
 	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Hubo un error al conectarse %v", err)

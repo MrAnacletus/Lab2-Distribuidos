@@ -1,4 +1,4 @@
-package main
+package chat
 
 import (
 	"context"
@@ -7,7 +7,7 @@ import (
 	"net"
 	// "sync"
 	// "time"
-	pb "github.com/MrAnacletus/Lab2-Distribuidos/protos/"
+	pb "github.com/MrAnacletus/Lab2-Distribuidos/protos"
 	"google.golang.org/grpc"
 )
 
