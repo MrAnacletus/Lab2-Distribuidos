@@ -18,7 +18,7 @@ const _ = SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ClientServiceClient interface {
 	// Sends a greeting
-	JugadorJugar(ctx context.Context, in *Jugada, opts ...CallOption) (*Algo, error)
+	JugadorJugar(ctx context.Context, in *Jugada, opts ...CallOption) (*Recibo, error)
 }
 
 type clientServiceClient struct {
@@ -29,8 +29,8 @@ func NewClientServiceClient(cc ClientConnInterface) ClientServiceClient {
 	return &clientServiceClient{cc}
 }
 
-func (c *clientServiceClient) JugadorJugar(ctx context.Context, in *Jugada, opts ...CallOption) (*Algo, error) {
-	out := new(Algo)
+func (c *clientServiceClient) JugadorJugar(ctx context.Context, in *Jugada, opts ...CallOption) (*Recibo, error) {
+	out := new(Recibo)
 	err := c.cc.Invoke(ctx, "/pb.ClientService/JugadorJugar", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -43,7 +43,7 @@ func (c *clientServiceClient) JugadorJugar(ctx context.Context, in *Jugada, opts
 // for forward compatibility
 type ClientServiceServer interface {
 	// Sends a greeting
-	JugadorJugar(context.Context, *Jugada) (*Algo, error)
+	JugadorJugar(context.Context, *Jugada) (*Recibo, error)
 	mustEmbedUnimplementedClientServiceServer()
 }
 
@@ -51,7 +51,7 @@ type ClientServiceServer interface {
 type UnimplementedClientServiceServer struct {
 }
 
-func (UnimplementedClientServiceServer) JugadorJugar(context.Context, *Jugada) (*Algo, error) {
+func (UnimplementedClientServiceServer) JugadorJugar(context.Context, *Jugada) (*Recibo, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method JugadorJugar not implemented")
 }
 func (UnimplementedClientServiceServer) mustEmbedUnimplementedClientServiceServer() {}

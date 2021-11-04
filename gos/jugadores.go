@@ -7,8 +7,8 @@ import (
 	// "net"
 	// "sync"
 	"time"
+	pb "github.com/MrAnacletus/Lab2-Distribuidos/tree/main/protos"
 
-	pb "github.com/MrAnacletus/Lab2-Distribuidos/protos"
 	"google.golang.org/grpc"
 )
 
@@ -37,8 +37,4 @@ func EnviarJugada(id int32, jugador int32, carta int32) {
 		log.Fatalf("Could not greet: %v", err)
 	}
 	log.Printf("Greeting: %s", r.GetMessage())
-}
-
-func main(){
-	go EnviarJugada(1, 1, 1)
 }

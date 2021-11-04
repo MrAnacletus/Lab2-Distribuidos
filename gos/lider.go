@@ -3,12 +3,11 @@ package main
 import (
 	"context"
 	"log"
-	"math/rand"
+	// "math/rand"
 	"net"
-	"sync"
-	"time"
-
-	pb "github.com/MrAnacletus/Lab2-Distribuidos/tree/main/protos"
+	// "sync"
+	// "time"
+	pb "github.com/MrAnacletus/Lab2-Distribuidos/protos/"
 	"google.golang.org/grpc"
 )
 
@@ -22,9 +21,9 @@ type Recibo struct {
 	Id int32
 }
 
-func (s grpc.ServiceRegistrar) recibirJugada (ctx context.Context, jugada *Jugada) (*Recibo, error) {
-	recibo := Recibo{Id: jugada.Id}
-	return recibo, nil
+func (s *server) Recibir(ctx context.Context, recibo *pb.Recibo) (*pb.Recibo, error) {
+	log.Printf("Recibido: %v", recibo)
+	return &pb.Recibo{Id: recibo.Id}, nil
 }
 
 func ServerLider(){
