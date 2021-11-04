@@ -31,7 +31,7 @@ func NewClientServiceClient(cc ClientConnInterface) ClientServiceClient {
 
 func (c *clientServiceClient) JugadorJugar(ctx context.Context, in *Jugada, opts ...CallOption) (*Algo, error) {
 	out := new(Algo)
-	err := c.cc.Invoke(ctx, "/proto.ClientService/JugadorJugar", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pb.ClientService/JugadorJugar", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func _ClientService_JugadorJugar_Handler(srv interface{}, ctx context.Context, d
 	}
 	info := &UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.ClientService/JugadorJugar",
+		FullMethod: "/pb.ClientService/JugadorJugar",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ClientServiceServer).JugadorJugar(ctx, req.(*Jugada))
@@ -89,7 +89,7 @@ func _ClientService_JugadorJugar_Handler(srv interface{}, ctx context.Context, d
 // It's only intended for direct use with RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ClientService_ServiceDesc = ServiceDesc{
-	ServiceName: "proto.ClientService",
+	ServiceName: "pb.ClientService",
 	HandlerType: (*ClientServiceServer)(nil),
 	Methods: []MethodDesc{
 		{

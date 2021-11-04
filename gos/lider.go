@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	pb "https://github.com/MrAnacletus/Lab2-Distribuidos/tree/main/protos"
+	pb "github.com/MrAnacletus/Lab2-Distribuidos/tree/main/protos"
 	"google.golang.org/grpc"
 )
 
@@ -22,7 +22,7 @@ type Recibo struct {
 	Id int32
 }
 
-func (s *Server) recibirJugada (ctx context.Context, jugada *Jugada) (*Recibo, error) {
+func (s grpc.ServiceRegistrar) recibirJugada (ctx context.Context, jugada *Jugada) (*Recibo, error) {
 	recibo := Recibo{Id: jugada.Id}
 	return recibo, nil
 }

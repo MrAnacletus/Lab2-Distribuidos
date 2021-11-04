@@ -3,7 +3,7 @@ syntax = "proto3";
 
 option go_package = "google.golang.org/grpc";
 
-package proto;
+package pb;
 // The greeter service definition.
 service ClientService {
 // Sends a greeting
