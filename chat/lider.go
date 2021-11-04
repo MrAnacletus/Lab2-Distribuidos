@@ -14,7 +14,7 @@ import (
 
 
 type server struct{
-	pb.UnimplementedLiderServer
+	pb.UnimplementedClientServiceServer
 }
 
 type Recibo struct {
@@ -32,7 +32,7 @@ func ServerLider(){
 		log.Fatalf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
-	pb.RegisterLiderServer(s, &server{})
+	pb.RegisterClientServiceServer(s, &server{})
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

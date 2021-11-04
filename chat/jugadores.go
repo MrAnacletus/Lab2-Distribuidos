@@ -25,7 +25,7 @@ func Jugador(id int32, jugador int32, carta int32) {
 		log.Fatalf("Hubo un error al conectarse %v", err)
 	}
 	defer conn.Close()
-	c := pb.NewLiderClient(conn)
+	c := pb.NewJugadoresClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	jugada := &pb.Jugada{
