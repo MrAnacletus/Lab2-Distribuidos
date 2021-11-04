@@ -3,19 +3,21 @@ syntax = "proto3";
 
 option go_package = "google.golang.org/grpc";
 
-package juego;
+package proto;
 // The greeter service definition.
-service Greeter {
-  // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
+service ClientService {
+// Sends a greeting
+rpc JugadorJugar (Jugada) returns (Algo) {}
 }
 
 // The request message containing the user's name.
-message HelloRequest {
-  string name = 1;
+message Jugada {
+    int32 Id = 1;
+    int32 Jugador = 2;
+    int32 Carta = 3;
 }
 
 // The response message containing the greetings
-message HelloReply {
-  string message = 1;
+message Algo {
+    int32 estado = 1;
 }

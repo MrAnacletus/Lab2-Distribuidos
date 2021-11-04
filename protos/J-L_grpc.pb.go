@@ -13,88 +13,88 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = SupportPackageIsVersion7
 
-// GreeterClient is the client API for Greeter service.
+// ClientServiceClient is the client API for ClientService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type GreeterClient interface {
+type ClientServiceClient interface {
 	// Sends a greeting
-	SayHello(ctx context.Context, in *HelloRequest, opts ...CallOption) (*HelloReply, error)
+	JugadorJugar(ctx context.Context, in *Jugada, opts ...CallOption) (*Algo, error)
 }
 
-type greeterClient struct {
+type clientServiceClient struct {
 	cc ClientConnInterface
 }
 
-func NewGreeterClient(cc ClientConnInterface) GreeterClient {
-	return &greeterClient{cc}
+func NewClientServiceClient(cc ClientConnInterface) ClientServiceClient {
+	return &clientServiceClient{cc}
 }
 
-func (c *greeterClient) SayHello(ctx context.Context, in *HelloRequest, opts ...CallOption) (*HelloReply, error) {
-	out := new(HelloReply)
-	err := c.cc.Invoke(ctx, "/juego.Greeter/SayHello", in, out, opts...)
+func (c *clientServiceClient) JugadorJugar(ctx context.Context, in *Jugada, opts ...CallOption) (*Algo, error) {
+	out := new(Algo)
+	err := c.cc.Invoke(ctx, "/proto.ClientService/JugadorJugar", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// GreeterServer is the server API for Greeter service.
-// All implementations must embed UnimplementedGreeterServer
+// ClientServiceServer is the server API for ClientService service.
+// All implementations must embed UnimplementedClientServiceServer
 // for forward compatibility
-type GreeterServer interface {
+type ClientServiceServer interface {
 	// Sends a greeting
-	SayHello(context.Context, *HelloRequest) (*HelloReply, error)
-	mustEmbedUnimplementedGreeterServer()
+	JugadorJugar(context.Context, *Jugada) (*Algo, error)
+	mustEmbedUnimplementedClientServiceServer()
 }
 
-// UnimplementedGreeterServer must be embedded to have forward compatible implementations.
-type UnimplementedGreeterServer struct {
+// UnimplementedClientServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedClientServiceServer struct {
 }
 
-func (UnimplementedGreeterServer) SayHello(context.Context, *HelloRequest) (*HelloReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
+func (UnimplementedClientServiceServer) JugadorJugar(context.Context, *Jugada) (*Algo, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method JugadorJugar not implemented")
 }
-func (UnimplementedGreeterServer) mustEmbedUnimplementedGreeterServer() {}
+func (UnimplementedClientServiceServer) mustEmbedUnimplementedClientServiceServer() {}
 
-// UnsafeGreeterServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to GreeterServer will
+// UnsafeClientServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ClientServiceServer will
 // result in compilation errors.
-type UnsafeGreeterServer interface {
-	mustEmbedUnimplementedGreeterServer()
+type UnsafeClientServiceServer interface {
+	mustEmbedUnimplementedClientServiceServer()
 }
 
-func RegisterGreeterServer(s ServiceRegistrar, srv GreeterServer) {
-	s.RegisterService(&Greeter_ServiceDesc, srv)
+func RegisterClientServiceServer(s ServiceRegistrar, srv ClientServiceServer) {
+	s.RegisterService(&ClientService_ServiceDesc, srv)
 }
 
-func _Greeter_SayHello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor UnaryServerInterceptor) (interface{}, error) {
-	in := new(HelloRequest)
+func _ClientService_JugadorJugar_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor UnaryServerInterceptor) (interface{}, error) {
+	in := new(Jugada)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GreeterServer).SayHello(ctx, in)
+		return srv.(ClientServiceServer).JugadorJugar(ctx, in)
 	}
 	info := &UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/juego.Greeter/SayHello",
+		FullMethod: "/proto.ClientService/JugadorJugar",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GreeterServer).SayHello(ctx, req.(*HelloRequest))
+		return srv.(ClientServiceServer).JugadorJugar(ctx, req.(*Jugada))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Greeter_ServiceDesc is the ServiceDesc for Greeter service.
+// ClientService_ServiceDesc is the ServiceDesc for ClientService service.
 // It's only intended for direct use with RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Greeter_ServiceDesc = ServiceDesc{
-	ServiceName: "juego.Greeter",
-	HandlerType: (*GreeterServer)(nil),
+var ClientService_ServiceDesc = ServiceDesc{
+	ServiceName: "proto.ClientService",
+	HandlerType: (*ClientServiceServer)(nil),
 	Methods: []MethodDesc{
 		{
-			MethodName: "SayHello",
-			Handler:    _Greeter_SayHello_Handler,
+			MethodName: "JugadorJugar",
+			Handler:    _ClientService_JugadorJugar_Handler,
 		},
 	},
 	Streams:  []StreamDesc{},
