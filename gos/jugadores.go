@@ -8,7 +8,7 @@ import (
 	// "sync"
 	"time"
 
-	pb "github.com/MrAnacletus/Lab2-Distribuidos/tree/main/protos"
+	pb "github.com/MrAnacletus/Lab2-Distribuidos/protos"
 	"google.golang.org/grpc"
 )
 
