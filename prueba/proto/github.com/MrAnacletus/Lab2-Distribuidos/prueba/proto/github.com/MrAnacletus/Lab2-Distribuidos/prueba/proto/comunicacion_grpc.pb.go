@@ -20,7 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 type HelloServiceClient interface {
 	SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error)
 	SayHelloAgain(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error)
-	GetJugadores(ctx context.Context, in *Jugadores, opts ...grpc.CallOption) (*HelloReply, error)
+	GetJugadas(ctx context.Context, in *Jugadas, opts ...grpc.CallOption) (*HelloReply, error)
 }
 
 type helloServiceClient struct {
@@ -49,9 +49,9 @@ func (c *helloServiceClient) SayHelloAgain(ctx context.Context, in *HelloRequest
 	return out, nil
 }
 
-func (c *helloServiceClient) GetJugadores(ctx context.Context, in *Jugadores, opts ...grpc.CallOption) (*HelloReply, error) {
+func (c *helloServiceClient) GetJugadas(ctx context.Context, in *Jugadas, opts ...grpc.CallOption) (*HelloReply, error) {
 	out := new(HelloReply)
-	err := c.cc.Invoke(ctx, "/grpc.HelloService/GetJugadores", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/grpc.HelloService/GetJugadas", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +64,7 @@ func (c *helloServiceClient) GetJugadores(ctx context.Context, in *Jugadores, op
 type HelloServiceServer interface {
 	SayHello(context.Context, *HelloRequest) (*HelloReply, error)
 	SayHelloAgain(context.Context, *HelloRequest) (*HelloReply, error)
-	GetJugadores(context.Context, *Jugadores) (*HelloReply, error)
+	GetJugadas(context.Context, *Jugadas) (*HelloReply, error)
 	mustEmbedUnimplementedHelloServiceServer()
 }
 
@@ -78,8 +78,8 @@ func (UnimplementedHelloServiceServer) SayHello(context.Context, *HelloRequest) 
 func (UnimplementedHelloServiceServer) SayHelloAgain(context.Context, *HelloRequest) (*HelloReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SayHelloAgain not implemented")
 }
-func (UnimplementedHelloServiceServer) GetJugadores(context.Context, *Jugadores) (*HelloReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetJugadores not implemented")
+func (UnimplementedHelloServiceServer) GetJugadas(context.Context, *Jugadas) (*HelloReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetJugadas not implemented")
 }
 func (UnimplementedHelloServiceServer) mustEmbedUnimplementedHelloServiceServer() {}
 
@@ -130,20 +130,20 @@ func _HelloService_SayHelloAgain_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _HelloService_GetJugadores_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Jugadores)
+func _HelloService_GetJugadas_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Jugadas)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(HelloServiceServer).GetJugadores(ctx, in)
+		return srv.(HelloServiceServer).GetJugadas(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/grpc.HelloService/GetJugadores",
+		FullMethod: "/grpc.HelloService/GetJugadas",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(HelloServiceServer).GetJugadores(ctx, req.(*Jugadores))
+		return srv.(HelloServiceServer).GetJugadas(ctx, req.(*Jugadas))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -164,8 +164,8 @@ var HelloService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _HelloService_SayHelloAgain_Handler,
 		},
 		{
-			MethodName: "GetJugadores",
-			Handler:    _HelloService_GetJugadores_Handler,
+			MethodName: "GetJugadas",
+			Handler:    _HelloService_GetJugadas_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

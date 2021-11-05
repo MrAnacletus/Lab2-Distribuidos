@@ -29,9 +29,9 @@ func main(){
 	//Crear los jugadores
 	players := make([]Jugador,16)
 	for i := 0; i < 16; i++ {
-		jugadores[i].Name = "Jugador " + string(i+1)
-		jugadores[i].Id = i
-		jugadores[i].State = 1
+		players[i].Name = "Jugador " + string(i+1)
+		players[i].Id = i
+		players[i].State = 1
 	}
 
 	//Enviar los jugadores
