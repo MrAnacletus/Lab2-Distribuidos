@@ -13,7 +13,7 @@ message HelloReply {
 
 message Jugadas{
     int32 ID = 1;
-    repeated int32 jugadas = 2 [packed = true];
+    bytes jugadas = 2;
 }
 
 service HelloService {

@@ -6,6 +6,7 @@ import (
 
 	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
 	"google.golang.org/grpc"
+	"github.com/golang/protobuf/proto"
 )
 
 func main(){
@@ -27,9 +28,10 @@ func main(){
 		jugadas[i] = i
 		i++
 	}
+	data, err := proto.Marshal(jugadas)
 
 	//Enviar los jugadores
-	res3, err := serviceCLient.GetJugadas(context.Background(), &pb.Jugadas{ID: 1,Jugadas: jugadas})
+	res3, err := serviceCLient.GetJugadas(context.Background(), &pb.Jugadas{ID: 1,Jugadas: data})
 	if err != nil {
 		panic(err)
 	}
