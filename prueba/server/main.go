@@ -17,6 +17,11 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	return &pb.HelloReply{Message: "Hello " + in.Name}, nil
 }
 
+func (s *server) SayHelloAgain(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
+	fmt.Println("Enviado: ", in.Name)
+	return &pb.HelloReply{Message: "Hello " + in.Name}, nil
+}
+
 func main(){
 	listener, err := net.Listen("tcp", ":50051")
 	if err != nil {

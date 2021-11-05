@@ -19,4 +19,9 @@ func main(){
 		panic(err)
 	}
 	fmt.Println(res.Message)
+	res, err := serviceCLient.SayHelloAgain(context.Background(), &pb.HelloRequest{Name: "Anacletus"})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(res.Message)
 }
