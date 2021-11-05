@@ -8,12 +8,6 @@ import (
 	"google.golang.org/grpc"
 )
 
-type Jugador struct {
-	Name string
-	Id int
-	State int
-}
-
 func main(){
 	conn, err := grpc.Dial("localhost:50051",grpc.WithInsecure())
 	if err != nil {
@@ -26,16 +20,14 @@ func main(){
 	}
 	fmt.Println(res.Message)
 
-	//Crear los jugadores
-	players := make([]Jugador,16)
+	//Crear los jugadas
+	jugadas := [16]int{}
 	for i := 0; i < 16; i++ {
-		players[i].Name = "Jugador " + string(i+1)
-		players[i].Id = i
-		players[i].State = 1
+		jugadas[i] = i
 	}
 
 	//Enviar los jugadores
-	res3, err := serviceCLient.GetJugadores(context.Background(), &pb.Jugadores{jugadores: players})
+	res3, err := serviceCLient.GetJugadas(context.Background(), &pb.Jugadas{ID: 1,Jugadas: jugadas})
 	if err != nil {
 		panic(err)
 	}

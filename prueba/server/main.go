@@ -22,9 +22,9 @@ func (s *server) SayHelloAgain(ctx context.Context, in *pb.HelloRequest) (*pb.He
 	return &pb.HelloReply{Message: "Hello "}, nil
 }
 
-func (s *server) GetJugadores(ctx context.Context, in *pb.Jugadores) (*pb.HelloReply, error) {
-	fmt.Println("Jugadores recibidos ")
-	return &pb.HelloReply{Message: "Jugadores recibidos, gracias"}, nil
+func (s *server) GetJugadas(ctx context.Context, in *pb.Jugadores) (*pb.HelloReply, error) {
+	fmt.Println("Jugadas recibidas ")
+	return &pb.HelloReply{Message: "Jugadas recibidas, gracias"}, nil
 }
 
 func main(){
@@ -34,9 +34,6 @@ func main(){
 	}
 	serv := grpc.NewServer()
 	pb.RegisterHelloServiceServer(serv, &server{})
-	if err = serv.Serve(listener); err != nil{
-		panic(err)
-	}
 	if err = serv.Serve(listener); err != nil{
 		panic(err)
 	}
