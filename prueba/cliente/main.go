@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto/github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto/github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
+	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
 	"google.golang.org/grpc"
 )
 
@@ -21,9 +21,11 @@ func main(){
 	fmt.Println(res.Message)
 
 	//Crear los jugadas
-	jugadas := [16]int{}
-	for i := 0; i < 16; i++ {
+	var jugadas [16]int32
+	var i int32
+	for i < 16 {
 		jugadas[i] = i
+		i++
 	}
 
 	//Enviar los jugadores

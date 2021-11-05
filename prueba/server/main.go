@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net"
 
-	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto/github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto/github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
+	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
 	"google.golang.org/grpc"
 )
 type server struct{
@@ -22,7 +22,7 @@ func (s *server) SayHelloAgain(ctx context.Context, in *pb.HelloRequest) (*pb.He
 	return &pb.HelloReply{Message: "Hello "}, nil
 }
 
-func (s *server) GetJugadas(ctx context.Context, in *pb.Jugadores) (*pb.HelloReply, error) {
+func (s *server) GetJugadas(ctx context.Context, in *pb.Jugadas) (*pb.HelloReply, error) {
 	fmt.Println("Jugadas recibidas ")
 	return &pb.HelloReply{Message: "Jugadas recibidas, gracias"}, nil
 }
