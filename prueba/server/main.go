@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net"
 
-	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
+	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto/github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
 	"google.golang.org/grpc"
 )
 type server struct{
@@ -29,6 +29,9 @@ func main(){
 	}
 	serv := grpc.NewServer()
 	pb.RegisterHelloServiceServer(serv, &server{})
+	if err = serv.Serve(listener); err != nil{
+		panic(err)
+	}
 	if err = serv.Serve(listener); err != nil{
 		panic(err)
 	}

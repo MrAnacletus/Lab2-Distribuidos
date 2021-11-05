@@ -1,4 +1,4 @@
-module lab2
+module github.com/MrAnacletus/Lab2-Distribuidos/prueba
 
 go 1.17
 
