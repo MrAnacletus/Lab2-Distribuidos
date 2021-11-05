@@ -3,18 +3,17 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 
 	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
 	"google.golang.org/grpc"
 )
 
 func main(){
-	conn, err := grpc.Dial("localhost:50051",grpc.WithInsecure)
+	conn, err := grpc.Dial("localhost:50051",grpc.WithInsecure())
 	if err != nil {
 		panic(err)
 	}
-	serviceCLient := pb.NewServiceClient(conn)
+	serviceCLient := pb.NewHelloServiceClient(conn)
 	res, err := serviceCLient.SayHello(context.Background(), &pb.HelloRequest{Name: "Anacletus"})
 	if err != nil {
 		panic(err)
