@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net"
 
-	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto/github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
+	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
 	"google.golang.org/grpc"
 )
 type server struct{
