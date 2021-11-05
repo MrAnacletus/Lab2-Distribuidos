@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net"
 
-	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
+	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto/github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto/github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
 	"google.golang.org/grpc"
 )
 type server struct{
@@ -13,18 +13,18 @@ type server struct{
 }
 
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	fmt.Println("Enviado: ", in.Name)
-	return &pb.HelloReply{Message: "Hello " + in.Name}, nil
+	fmt.Println("Enviado: ")
+	return &pb.HelloReply{Message: "Hello "}, nil
 }
 
 func (s *server) SayHelloAgain(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	fmt.Println("Enviado: ", in.Name)
-	return &pb.HelloReply{Message: "Hello " + in.Name}, nil
+	fmt.Println("Enviado: ")
+	return &pb.HelloReply{Message: "Hello "}, nil
 }
 
 func (s *server) GetJugadores(ctx context.Context, in *pb.Jugadores) (*pb.HelloReply, error) {
-	fmt.Println("Jugadores recibidos ", in.Name)
-	return &pb.HelloReply{Message: "Jugadores recibidos, gracias" + in.Name}, nil
+	fmt.Println("Jugadores recibidos ")
+	return &pb.HelloReply{Message: "Jugadores recibidos, gracias"}, nil
 }
 
 func main(){

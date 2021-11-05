@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
+	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto/github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto/github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
 	"google.golang.org/grpc"
 )
 
@@ -27,7 +27,7 @@ func main(){
 	fmt.Println(res.Message)
 
 	//Crear los jugadores
-	jugadores := make([]Jugador,16)
+	players := make([]Jugador,16)
 	for i := 0; i < 16; i++ {
 		jugadores[i].Name = "Jugador " + string(i+1)
 		jugadores[i].Id = i
@@ -35,7 +35,7 @@ func main(){
 	}
 
 	//Enviar los jugadores
-	res3, err := serviceCLient.GetJugadores(context.Background(), &pb.PlayersRequest{Players: jugadores})
+	res3, err := serviceCLient.GetJugadores(context.Background(), &pb.Jugadores{jugadores: players})
 	if err != nil {
 		panic(err)
 	}
