@@ -73,6 +73,7 @@ func PedirPozo(){
 type Bots struct{
 	ID int32
 	Estado int32
+	Team int32
 }
 
 var ListaJugadores [16]Bots
@@ -125,6 +126,79 @@ func juego1()(bool){
 		}
 	}
 	// Pedir los muertos
+	return true
+}
+
+func juego2()(bool){
+	var suma1 int32 = 0
+	var suma2 int32 = 0
+	//Dividir los equipos
+	//Contar los vivos
+	if Vivos % 2 != 0 {
+		Elegido := rand.Intn(int(Vivos))
+		for i := 0; i < 16; i++ {
+			if ListaJugadores[i].Estado == 1 {
+				if Elegido == 0 {
+					ListaJugadores[i].Estado = 0
+				}
+				Elegido -= 1
+			}
+		}
+		Vivos -= 1
+	}
+	for i := 0 ;i < 16; i++ {
+		if ListaJugadores[i].Estado == 1 {
+			team := rand.Intn(1) + 1
+			if team == 1 {
+				if suma1 == Vivos/2 {
+					team = 2
+				}else{
+					suma1 += 1
+				}
+			}else{
+				if suma2 == Vivos/2 {
+					team = 1
+				}else{
+					suma2 += 1
+				}
+			}
+			ListaJugadores[i].Team = int32(team)
+		}
+	}
+	suma1 = 0
+	suma2 = 0
+	//Contar las sumas
+	for i := 0; i < 16; i++ {
+		if ListaJugadores[i].Estado == 1 {
+			if ListaJugadores[i].Team == 1 {
+				if ListaJugadores[i].ID == 1 {
+					fmt.Println("Es tu turno, usted pertenece al equipo 1")
+					fmt.Println("Selecciona una jugada")
+					fmt.Println("Elija un numero entre 1 y 4, la suma de su equipo debera tener la misma paridad que el numero elegido por el lider")
+					var numero1 int
+					fmt.Scanln(&numero1)
+					suma1 += int32(numero1)
+
+				}else{
+					numero2 := rand.Intn(4) + 1
+					suma1 += int32(numero2)
+				}
+			}else{
+				if ListaJugadores[i].ID == 1 {
+					fmt.Println("Es tu turno, usted pertenece al equipo 2")
+					fmt.Println("Selecciona una jugada")
+					fmt.Println("Elija un numero entre 1 y 4, la suma de su equipo debera tener la misma paridad que el numero elegido por el lider")
+					var numero1 int
+					fmt.Scanln(&numero1)
+					suma2 += int32(numero1)
+
+				}else{
+					numero2 := rand.Intn(4) + 1
+					suma2 += int32(numero2)
+				}
+			}
+		}
+	}
 	return true
 }
 
