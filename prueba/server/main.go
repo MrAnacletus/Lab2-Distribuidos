@@ -46,6 +46,24 @@ func (s *server) GetJugada(ctx context.Context, in *pb.Jugada) (*pb.HelloReply, 
 	return &pb.HelloReply{Message: "Jugadas recibidas, gracias"}, nil
 }
 
+func (s *server) RequestPozo(ctx context.Context, in *pb.Pozo) (*pb.HelloReply, error) {
+	// Enviarla a Pozo
+	fmt.Println("Peticion recibida, enviando peticion al servidor Pozo")
+	conn, err := grpc.Dial("10.6.40.220:8080", grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("No se pudo conectar con el server Pozo: %v",err)
+	}
+	defer conn.Close()
+
+	//Se crea un cliente para la conexion
+	serviceClient := pb.NewPozoServiceClient(conn)
+	//Se envia la peticion al servidor pozo
+	res, err = serviceClient.PedirPozo(context.Background(), &pb.Pozo{pozo: 0})
+	if err != nil {
+		log.Fatalf("No se pudo enviar la peticion: %v",err)
+	}
+	return res, nil
+
 // func EnviarJugadas(){
 // 	conn, err := grpc.Dial("localhost:50052", grpc.WithInsecure())
 // 	if err != nil {
