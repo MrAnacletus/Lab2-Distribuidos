@@ -75,7 +75,7 @@ func EnviarJugada2(J Jugada2)(Jugada){
 	//Se crea un cliente para la comunicación con el servidor
 	serviceCLient := pb.NewLiderServiceClient(conn)
 	//Se envia la Jugada al servidor
-	res, err := serviceCLient.SendJugada2(context.Background(), &pb.Jugada{ID: J.ID, Jugada: J.jugada})
+	res, err := serviceCLient.SendJugada2(context.Background(), &pb.Jugada2{ID1: J.ID1,ID2: J.ID2, Jugada1: J.Jugada1, Jugada2: J.Jugada2})
 	if err != nil {
 		log.Fatalf("Error al enviar la Jugada: %v", err)
 	}

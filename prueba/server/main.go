@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"math/rand"
+	"math"
 	"fmt"
 	"log"
 	"net"
@@ -99,8 +100,8 @@ func (s *server) SendJugada3 (ctx context.Context, in *pb.Jugada3) (*pb.Resultad
 	//Lider debe elegir un numero entre 1 y 10
 	JugadaLider := rand.Intn(10) + 1
 	//Calcular distancias con el lider
-	Distancia1 := abs((JugadaLider - int(jugada1)))
-	Distancia2 := abs((JugadaLider - int(jugada2)))
+	Distancia1 := math.Abs(float64(JugadaLider - int(jugada1)))
+	Distancia2 := math.Abs(float64(JugadaLider - int(jugada2)))
 	//Decidir al ganador
 	if Distancia1 < Distancia2{
 		return &pb.Resultado{ID: ID1,Estado: 1}, nil
