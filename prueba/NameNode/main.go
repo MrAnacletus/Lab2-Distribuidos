@@ -21,8 +21,8 @@ func (s *server) SayHelloAgain(ctx context.Context, in *pb.HelloRequest) (*pb.He
 	return &pb.HelloReply{Message: "Hello "}, nil
 }
 
-func (s *server) GetJugadas(ctx context.Context, in *pb.Jugadas) (*pb.HelloReply, error) {
-	fmt.Println("Jugadas recibidas ")
+func (s *server) GetJugada(ctx context.Context, in *pb.Jugada) (*pb.HelloReply, error) {
+	fmt.Println("Jugada recibida, Jugada: " + fmt.Sprint(in.Jugada) + " Jugador: " + fmt.Sprint(in.ID))
 	return &pb.HelloReply{Message: "Jugadas recibidas, gracias"}, nil
 }
 

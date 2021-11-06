@@ -30,6 +30,19 @@ func (s *server) SayHelloAgain(ctx context.Context, in *pb.HelloRequest) (*pb.He
 func (s *server) GetJugada(ctx context.Context, in *pb.Jugada) (*pb.HelloReply, error) {
 	// Enviarla a NameNode
 	fmt.Println("Jugadas recibidas, jugada:" + fmt.Sprint(in.GetJugada()) + " del jugador: " + fmt.Sprint(in.GetID()))
+	conn, err := grpc.Dial("localhost:8081", grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("No se pudo conectar con el server NameNode: %v",err)
+	}
+	defer conn.Close()
+
+	//Se crea un cliente para la conexion
+	serviceClient := pb.NewHelloServiceClient(conn)
+	//Se envia la jugada apra que sea escrita en el archivo
+	_, err = serviceClient.GetJugada(context.Background(), &pb.Jugada{Jugada: in.GetJugada(), ID: in.GetID()})
+	if err != nil {
+		log.Fatalf("No se pudo enviar la jugada: %v",err)
+	}
 	return &pb.HelloReply{Message: "Jugadas recibidas, gracias"}, nil
 }
 
