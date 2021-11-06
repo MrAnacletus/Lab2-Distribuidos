@@ -61,7 +61,7 @@ func PedirPozo(){
 	//Se crea un cliente para la comunicación con el servidor
 	serviceCLient := pb.NewHelloServiceClient(conn)
 	//Se envia la petición de pozo al servidor
-	res, err := serviceCLient.RequestPozo(context.Background(), &pb.RequestPozoActual{pozo: 0})
+	res, err := serviceCLient.RequestPozo(context.Background(), &pb.RequestPozoActual{Pozo: 0})
 	if err != nil {
 		panic(err)
 	}
