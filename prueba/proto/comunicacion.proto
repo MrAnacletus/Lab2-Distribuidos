@@ -21,3 +21,15 @@ service HelloService {
     rpc SayHelloAgain (HelloRequest) returns (HelloReply);
     rpc GetJugada (Jugada) returns (HelloReply);
 }
+
+message RequestPozoActual{
+    int32 pozo = 1;
+}
+
+message ResponsePozoActual{
+    int32 pozo = 1;
+}
+
+service PozoService {
+    rpc RequestPozo (RequestPozoActual) returns (ResponsePozoActual);
+}

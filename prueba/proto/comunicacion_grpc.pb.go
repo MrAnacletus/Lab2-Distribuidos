@@ -171,3 +171,89 @@ var HelloService_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "comunicacion.proto",
 }
+
+// PozoServiceClient is the client API for PozoService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type PozoServiceClient interface {
+	RequestPozo(ctx context.Context, in *RequestPozoActual, opts ...grpc.CallOption) (*ResponsePozoActual, error)
+}
+
+type pozoServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewPozoServiceClient(cc grpc.ClientConnInterface) PozoServiceClient {
+	return &pozoServiceClient{cc}
+}
+
+func (c *pozoServiceClient) RequestPozo(ctx context.Context, in *RequestPozoActual, opts ...grpc.CallOption) (*ResponsePozoActual, error) {
+	out := new(ResponsePozoActual)
+	err := c.cc.Invoke(ctx, "/grpc.PozoService/RequestPozo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// PozoServiceServer is the server API for PozoService service.
+// All implementations must embed UnimplementedPozoServiceServer
+// for forward compatibility
+type PozoServiceServer interface {
+	RequestPozo(context.Context, *RequestPozoActual) (*ResponsePozoActual, error)
+	mustEmbedUnimplementedPozoServiceServer()
+}
+
+// UnimplementedPozoServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedPozoServiceServer struct {
+}
+
+func (UnimplementedPozoServiceServer) RequestPozo(context.Context, *RequestPozoActual) (*ResponsePozoActual, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RequestPozo not implemented")
+}
+func (UnimplementedPozoServiceServer) mustEmbedUnimplementedPozoServiceServer() {}
+
+// UnsafePozoServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to PozoServiceServer will
+// result in compilation errors.
+type UnsafePozoServiceServer interface {
+	mustEmbedUnimplementedPozoServiceServer()
+}
+
+func RegisterPozoServiceServer(s grpc.ServiceRegistrar, srv PozoServiceServer) {
+	s.RegisterService(&PozoService_ServiceDesc, srv)
+}
+
+func _PozoService_RequestPozo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestPozoActual)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PozoServiceServer).RequestPozo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grpc.PozoService/RequestPozo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PozoServiceServer).RequestPozo(ctx, req.(*RequestPozoActual))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// PozoService_ServiceDesc is the grpc.ServiceDesc for PozoService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var PozoService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "grpc.PozoService",
+	HandlerType: (*PozoServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "RequestPozo",
+			Handler:    _PozoService_RequestPozo_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "comunicacion.proto",
+}
