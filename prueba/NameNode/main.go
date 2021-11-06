@@ -3,8 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
-	"math/rand"
 	"net"
 
 	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
@@ -12,7 +10,7 @@ import (
 )
 
 type server struct{
-	pb.UnimplementedHelloServiceServer
+	pb.UnimplementedNameNodeServiceServer
 }
 
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
@@ -24,8 +22,8 @@ func (s *server) SayHelloAgain(ctx context.Context, in *pb.HelloRequest) (*pb.He
 	return &pb.HelloReply{Message: "Hello "}, nil
 }
 
-func (s *server) GetJugada(ctx context.Context, in *pb.Jugada) (*pb.Resultado, error) {
-	return &pb.Resultado{ID: in.GetID(),Estado: 1}, nil
+func (s *server) SendJugada(ctx context.Context, in *pb.Jugada) (*pb.HelloReply, error) {
+	return &pb.HelloReply{Message: "Jugada Recibida"}, nil
 }
 func ServidorNameNode(){
 	listener , err := net.Listen("tcp", ":8080")
@@ -35,7 +33,7 @@ func ServidorNameNode(){
 	}
 	fmt.Println("Servidor iniciado")
 	s := grpc.NewServer()
-	pb.RegisterHelloServiceServer(s, &server{})
+	pb.RegisterNameNodeServiceServer(s, &server{})
 	if err:= s.Serve(listener); err != nil{
 		fmt.Println("Error al iniciar el servidor")
 		return

@@ -24,7 +24,7 @@ func EnviarPeticionJugar(){
 	defer conn.Close()
 
 	//Se crea un cliente para la comunicación con el servidor
-	serviceCLient := pb.NewHelloServiceClient(conn)
+	serviceCLient := pb.NewLiderServiceClient(conn)
 	//Se envia la petición de jugar al servidor
 	res, err := serviceCLient.SayHello(context.Background(), &pb.HelloRequest{Name: "Preparandoce para iniciar el juego!"})
 	if err != nil {
@@ -42,9 +42,9 @@ func EnviarJugada(J Jugada)(bool){
 	defer conn.Close()
 
 	//Se crea un cliente para la comunicación con el servidor
-	serviceCLient := pb.NewHelloServiceClient(conn)
+	serviceCLient := pb.NewLiderServiceClient(conn)
 	//Se envia la Jugada al servidor
-	res, err := serviceCLient.GetJugada(context.Background(), &pb.Jugada{ID: J.ID, Jugada: J.jugada})
+	res, err := serviceCLient.SendJugada(context.Background(), &pb.Jugada{ID: J.ID, Jugada: J.jugada})
 	if err != nil {
 		log.Fatalf("Error al enviar la Jugada: %v", err)
 	}
@@ -60,7 +60,7 @@ func PedirPozo(){
 	defer conn.Close()
 
 	//Se crea un cliente para la comunicación con el servidor
-	serviceCLient := pb.NewHelloServiceClient(conn)
+	serviceCLient := pb.NewLiderServiceClient(conn)
 	//Se envia la petición de pozo al servidor
 	res, err := serviceCLient.RequestPozo(context.Background(), &pb.RequestPozoActual{Pozo: 0})
 	if err != nil {

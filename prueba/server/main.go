@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc"
 )
 type server struct{
-	pb.UnimplementedHelloServiceServer
+	pb.UnimplementedLiderServiceServer
 }
 type Jugada struct {
 	ID int32
@@ -29,7 +29,7 @@ func (s *server) SayHelloAgain(ctx context.Context, in *pb.HelloRequest) (*pb.He
 	return &pb.HelloReply{Message: "Hello "}, nil
 }
 
-func (s *server) GetJugada(ctx context.Context, in *pb.Jugada) (*pb.Resultado, error) {
+func (s *server) SendJugada(ctx context.Context, in *pb.Jugada) (*pb.Resultado, error) {
 	// Enviarla a NameNode
 	fmt.Println("Jugadas recibidas, jugada:" + fmt.Sprint(in.GetJugada()) + " del jugador: " + fmt.Sprint(in.GetID()))
 	conn, err := grpc.Dial("10.6.40.219:8080", grpc.WithInsecure())
@@ -39,9 +39,9 @@ func (s *server) GetJugada(ctx context.Context, in *pb.Jugada) (*pb.Resultado, e
 	defer conn.Close()
 
 	//Se crea un cliente para la conexion
-	serviceClient := pb.NewHelloServiceClient(conn)
+	serviceClient := pb.NewLiderServiceClient(conn)
 	//Se envia la jugada apra que sea escrita en el archivo
-	_, err = serviceClient.GetJugada(context.Background(), &pb.Jugada{Jugada: in.GetJugada(), ID: in.GetID()})
+	_, err = serviceClient.SendJugada(context.Background(), &pb.Jugada{Jugada: in.GetJugada(), ID: in.GetID()})
 	if err != nil {
 		log.Fatalf("No se pudo enviar la jugada: %v",err)
 	}
@@ -80,7 +80,7 @@ func ServidorCliente(){
 	}
 
 	s := grpc.NewServer()
-	pb.RegisterHelloServiceServer(s, &server{})
+	pb.RegisterLiderServiceServer(s, &server{})
 	if err := s.Serve(listener); err != nil {
 		log.Fatalf("No se pudo iniciar el server: %v",err)
 	}
