@@ -12,6 +12,10 @@ import (
 type server struct{
 	pb.UnimplementedHelloServiceServer
 }
+type Jugada struct {
+	ID int32
+	jugada int32
+}
 
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	fmt.Println("Peticion recibida, aceptando juego")
@@ -25,7 +29,7 @@ func (s *server) SayHelloAgain(ctx context.Context, in *pb.HelloRequest) (*pb.He
 
 func (s *server) GetJugada(ctx context.Context, in *pb.Jugada) (*pb.HelloReply, error) {
 	// Enviarla a NameNode
-	fmt.Println("Jugadas recibidas ")
+	fmt.Println("Jugadas recibidas, jugada:" + fmt.Sprint(in.GetJugada()) + " del jugador: " + fmt.Sprint(in.GetID()))
 	return &pb.HelloReply{Message: "Jugadas recibidas, gracias"}, nil
 }
 
