@@ -32,7 +32,7 @@ func EnviarPeticionJugar(){
 	fmt.Println(res.Message)
 }
 
-func EnviarJugada(Jugada J){
+func EnviarJugada(J Jugada){
 	//Se establece la conexión con el servidor
 	conn, err := grpc.Dial("10.6.40.218:8080",grpc.WithInsecure())
 	if err != nil {
