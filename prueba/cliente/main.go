@@ -15,6 +15,13 @@ type Jugada struct {
 	jugada int32
 }
 
+type Equipo struct {
+	ID1 int32
+	ID2 int32
+	Jugada1 int32
+	Jugada2 int32
+}
+
 func EnviarPeticionJugar(){
 	//Se establece la conexión con el servidor
 	conn, err := grpc.Dial("10.6.40.218:8080",grpc.WithInsecure())
@@ -70,6 +77,23 @@ func EnviarJugada2(J Jugada)(Jugada){
 	return Jugada{ID: res.GetID(), jugada: res.GetEstado()}
 }
 
+func EnviarJugada3(J Equipo)(Jugada){
+	//Se establece la conexión con el servidor
+	conn, err := grpc.Dial("10.6.40.218:8080",grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("Error al conectarse con el servidor Lider: %v", err)
+	}
+	defer conn.Close()
+
+	//Se crea un cliente para la comunicación con el servidor
+	serviceCLient := pb.NewLiderServiceClient(conn)
+	//Se envia la Jugada al servidor
+	res, err := serviceCLient.SendJugada3(context.Background(), &pb.Jugada3{ID: J.ID, Jugada: J.jugada})
+	if err != nil {
+		log.Fatalf("Error al enviar la Jugada: %v", err)
+	}
+
+}
 func PedirPozo(){
 	//Se establece la conexión con el servidor
 	conn, err := grpc.Dial("10.6.40.218:8080",grpc.WithInsecure())
@@ -250,6 +274,54 @@ func juego2()(bool){
 	if Vivos == 1 {
 		fmt.Println("Tenemos un ganador la conchadesumadre")
 		return false
+	}
+	return true
+}
+
+func juego3()(bool){
+	fmt.Println("--------------------------------------------------------O--------------------------------------------------------")
+	fmt.Println("Tercer Juego!!!!!!!!!!")
+	equipos := Vivos/2
+	//Dividir los equipos
+	var TIMS []Equipo
+
+	flag := true
+
+	for i:=0; i < 16; i++ {
+		if ListaJugadores[i].Estado == 1 {
+			if flag{
+				TIMS = append(TIMS, Equipo{ID1: ListaJugadores[i].ID})
+				equipos -= 1
+				flag = false
+			}else{
+				TIMS[Vivos/2 - 1 - equipos].ID2 = ListaJugadores[i].ID
+			}
+		}
+	}
+	for i:=0 ; i<int(Vivos/2); i++ {
+		fmt.Println("Equipo " + fmt.Sprint(i+1))
+		fmt.Println("Jugador 1: " + fmt.Sprint(TIMS[i].ID1))
+		fmt.Println("Jugador 2: " + fmt.Sprint(TIMS[i].ID2))
+		if TIMS[i].ID1 == 1 || TIMS[i].ID2 == 1 {
+			fmt.Println("Es tu turno, usted pertenece al equipo " + fmt.Sprint(i+1))
+			fmt.Println("Selecciona una jugada")
+			fmt.Println("Elija un numero entre 1 y 10, el numero que elijas debe estar cercano al numero que eligira el lider")
+			var numero1 int
+			fmt.Scanln(&numero1)
+			if TIMS[i].ID1 == 1{
+				TIMS[i].Jugada1 = int32(numero1)
+			}else{
+				TIMS[i].Jugada2 = int32(numero1)
+			}
+		}else{
+			numero2 := rand.Intn(10) + 1
+			TIMS[i].Jugada1 = int32(numero2)
+			numero3 := rand.Intn(10) + 1
+			TIMS[i].Jugada2 = int32(numero3)
+		}
+		//Enviar la jugada del juego 3
+		EnviarJugada3(TIMS[i])
+
 	}
 	return true
 }
