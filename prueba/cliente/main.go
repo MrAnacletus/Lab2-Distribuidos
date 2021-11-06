@@ -55,7 +55,8 @@ func juego1(){
 		fmt.Println("Elija un numero entre 1 y 10, recuerde que sus numeros deben sumar 21.")
 		var numero1 int
 		fmt.Scanln(&numero1)
-		j = Jugada{ID: 1, jugada: int32(numero1)}
+		var j = Jugada{ID: 1, jugada: int32(numero1)}
+		EnviarJugada(j)
 	}
 }
 
