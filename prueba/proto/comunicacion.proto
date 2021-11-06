@@ -11,13 +11,13 @@ message HelloReply {
     string message = 1;
 }
 
-message Jugadas{
+message Jugada{
     int32 ID = 1;
-    bytes jugadas = 2;
+    int32 jugada = 2;
 }
 
 service HelloService {
     rpc SayHello (HelloRequest) returns (HelloReply);
     rpc SayHelloAgain (HelloRequest) returns (HelloReply);
-    rpc GetJugadas (Jugadas) returns (HelloReply);
+    rpc GetJugadas (Jugada) returns (HelloReply);
 }

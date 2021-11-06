@@ -3,43 +3,35 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 
 	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
 	"google.golang.org/grpc"
-	"github.com/golang/protobuf/proto"
 )
 
-func main(){
+
+func EnviarPeticionJugar(){
+	//Se establece la conexión con el servidor
 	conn, err := grpc.Dial("localhost:50051",grpc.WithInsecure())
 	if err != nil {
-		panic(err)
+		log.Fatalf("Error al conectarse con el servidor Lider: %v", err)
 	}
+	defer conn.Close()
+
+	//Se crea un cliente para la comunicación con el servidor
 	serviceCLient := pb.NewHelloServiceClient(conn)
+	//Se envia la petición de jugar al servidor
 	res, err := serviceCLient.SayHello(context.Background(), &pb.HelloRequest{Name: "Preparandoce para iniciar el juego!"})
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(res.Message)
+}
 
-	//Crear los jugadas
-	var jugadas [16]int32
-	var i int32
-	for i < 16 {
-		jugadas[i] = i
-		i++
-	}
-	data, err := proto.Marshal(jugadas)
-
-	//Enviar los jugadores
-	res3, err := serviceCLient.GetJugadas(context.Background(), &pb.Jugadas{ID: 1,Jugadas: data})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println(res3.Message)
-
-	res2, err2 := serviceCLient.SayHelloAgain(context.Background(), &pb.HelloRequest{Name: "Listos para iniciar el juego!"})
-	if err2 != nil {
-		panic(err)
-	}
-	fmt.Println(res2.Message)
+func main(){
+	fmt.Println("Iniciando el cliente")
+	fmt.Println("Bienvenido al Juego del Calamar")
+	fmt.Println("Para comenzar a jugar, presiona enter")
+	fmt.Scanln()
+	EnviarPeticionJugar()
 }
