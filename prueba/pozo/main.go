@@ -6,7 +6,7 @@ import (
 	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
 	"google.golang.org/grpc"
 	"log"
-	
+
 )
 
 
@@ -14,16 +14,12 @@ type server struct{
 	pb.UnimplementedPozoServiceServer
 }
 
-type ResponsePozoActual struct{
-	Id int32
-}
-
 var POZOACTUAL int32
 
 
 func (s *server) PozoActual(ctx context.Context, req *pb.RequestPozoActual) (*pb.ResponsePozoActual, error) {
 	return &pb.ResponsePozoActual{
-		pozo: POZOACTUAL,
+		Pozo: POZOACTUAL,
 	}, nil
 }
 
