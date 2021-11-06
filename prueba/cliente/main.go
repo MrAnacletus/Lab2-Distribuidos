@@ -91,7 +91,17 @@ func main(){
 	fmt.Println("2. Ver pozo")
 	var opcion int
 	fmt.Scanln(&opcion)
-	if opcion == 1 {
-		juego1()
+	for{
+		if opcion == 1 {
+			juego1()
+		}
+		if opcion == 2 {
+			PedirPozo()
+		}
+		fmt.Println("Selecciona que vas a hacer:")
+		fmt.Println("1. Jugar")
+		fmt.Println("2. Ver pozo")
+		fmt.Scanln(&opcion)
 	}
+	
 }
