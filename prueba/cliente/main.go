@@ -71,6 +71,7 @@ func main(){
 	fmt.Println("2. Ver pozo")
 	var opcion int
 	fmt.Scanln(&opcion)
-	if opcion == 1{
+	if opcion == 1 {
 		juego1()
 	}
+}
