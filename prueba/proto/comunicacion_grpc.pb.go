@@ -14,158 +14,280 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// HelloServiceClient is the client API for HelloService service.
+// LiderServiceClient is the client API for LiderService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type HelloServiceClient interface {
+type LiderServiceClient interface {
 	SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error)
 	RequestPozo(ctx context.Context, in *RequestPozoActual, opts ...grpc.CallOption) (*ResponsePozoActual, error)
-	GetJugada(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*Resultado, error)
+	SendJugada(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*Resultado, error)
 }
 
-type helloServiceClient struct {
+type liderServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewHelloServiceClient(cc grpc.ClientConnInterface) HelloServiceClient {
-	return &helloServiceClient{cc}
+func NewLiderServiceClient(cc grpc.ClientConnInterface) LiderServiceClient {
+	return &liderServiceClient{cc}
 }
 
-func (c *helloServiceClient) SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error) {
+func (c *liderServiceClient) SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error) {
 	out := new(HelloReply)
-	err := c.cc.Invoke(ctx, "/grpc.HelloService/SayHello", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/grpc.LiderService/SayHello", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *helloServiceClient) RequestPozo(ctx context.Context, in *RequestPozoActual, opts ...grpc.CallOption) (*ResponsePozoActual, error) {
+func (c *liderServiceClient) RequestPozo(ctx context.Context, in *RequestPozoActual, opts ...grpc.CallOption) (*ResponsePozoActual, error) {
 	out := new(ResponsePozoActual)
-	err := c.cc.Invoke(ctx, "/grpc.HelloService/RequestPozo", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/grpc.LiderService/RequestPozo", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *helloServiceClient) GetJugada(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*Resultado, error) {
+func (c *liderServiceClient) SendJugada(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*Resultado, error) {
 	out := new(Resultado)
-	err := c.cc.Invoke(ctx, "/grpc.HelloService/GetJugada", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/grpc.LiderService/SendJugada", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// HelloServiceServer is the server API for HelloService service.
-// All implementations must embed UnimplementedHelloServiceServer
+// LiderServiceServer is the server API for LiderService service.
+// All implementations must embed UnimplementedLiderServiceServer
 // for forward compatibility
-type HelloServiceServer interface {
+type LiderServiceServer interface {
 	SayHello(context.Context, *HelloRequest) (*HelloReply, error)
 	RequestPozo(context.Context, *RequestPozoActual) (*ResponsePozoActual, error)
-	GetJugada(context.Context, *Jugada) (*Resultado, error)
-	mustEmbedUnimplementedHelloServiceServer()
+	SendJugada(context.Context, *Jugada) (*Resultado, error)
+	mustEmbedUnimplementedLiderServiceServer()
 }
 
-// UnimplementedHelloServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedHelloServiceServer struct {
+// UnimplementedLiderServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedLiderServiceServer struct {
 }
 
-func (UnimplementedHelloServiceServer) SayHello(context.Context, *HelloRequest) (*HelloReply, error) {
+func (UnimplementedLiderServiceServer) SayHello(context.Context, *HelloRequest) (*HelloReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
 }
-func (UnimplementedHelloServiceServer) RequestPozo(context.Context, *RequestPozoActual) (*ResponsePozoActual, error) {
+func (UnimplementedLiderServiceServer) RequestPozo(context.Context, *RequestPozoActual) (*ResponsePozoActual, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RequestPozo not implemented")
 }
-func (UnimplementedHelloServiceServer) GetJugada(context.Context, *Jugada) (*Resultado, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetJugada not implemented")
+func (UnimplementedLiderServiceServer) SendJugada(context.Context, *Jugada) (*Resultado, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendJugada not implemented")
 }
-func (UnimplementedHelloServiceServer) mustEmbedUnimplementedHelloServiceServer() {}
+func (UnimplementedLiderServiceServer) mustEmbedUnimplementedLiderServiceServer() {}
 
-// UnsafeHelloServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to HelloServiceServer will
+// UnsafeLiderServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to LiderServiceServer will
 // result in compilation errors.
-type UnsafeHelloServiceServer interface {
-	mustEmbedUnimplementedHelloServiceServer()
+type UnsafeLiderServiceServer interface {
+	mustEmbedUnimplementedLiderServiceServer()
 }
 
-func RegisterHelloServiceServer(s grpc.ServiceRegistrar, srv HelloServiceServer) {
-	s.RegisterService(&HelloService_ServiceDesc, srv)
+func RegisterLiderServiceServer(s grpc.ServiceRegistrar, srv LiderServiceServer) {
+	s.RegisterService(&LiderService_ServiceDesc, srv)
 }
 
-func _HelloService_SayHello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _LiderService_SayHello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(HelloRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(HelloServiceServer).SayHello(ctx, in)
+		return srv.(LiderServiceServer).SayHello(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/grpc.HelloService/SayHello",
+		FullMethod: "/grpc.LiderService/SayHello",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(HelloServiceServer).SayHello(ctx, req.(*HelloRequest))
+		return srv.(LiderServiceServer).SayHello(ctx, req.(*HelloRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _HelloService_RequestPozo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _LiderService_RequestPozo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RequestPozoActual)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(HelloServiceServer).RequestPozo(ctx, in)
+		return srv.(LiderServiceServer).RequestPozo(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/grpc.HelloService/RequestPozo",
+		FullMethod: "/grpc.LiderService/RequestPozo",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(HelloServiceServer).RequestPozo(ctx, req.(*RequestPozoActual))
+		return srv.(LiderServiceServer).RequestPozo(ctx, req.(*RequestPozoActual))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _HelloService_GetJugada_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _LiderService_SendJugada_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Jugada)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(HelloServiceServer).GetJugada(ctx, in)
+		return srv.(LiderServiceServer).SendJugada(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/grpc.HelloService/GetJugada",
+		FullMethod: "/grpc.LiderService/SendJugada",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(HelloServiceServer).GetJugada(ctx, req.(*Jugada))
+		return srv.(LiderServiceServer).SendJugada(ctx, req.(*Jugada))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// HelloService_ServiceDesc is the grpc.ServiceDesc for HelloService service.
+// LiderService_ServiceDesc is the grpc.ServiceDesc for LiderService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var HelloService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "grpc.HelloService",
-	HandlerType: (*HelloServiceServer)(nil),
+var LiderService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "grpc.LiderService",
+	HandlerType: (*LiderServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "SayHello",
-			Handler:    _HelloService_SayHello_Handler,
+			Handler:    _LiderService_SayHello_Handler,
 		},
 		{
 			MethodName: "RequestPozo",
-			Handler:    _HelloService_RequestPozo_Handler,
+			Handler:    _LiderService_RequestPozo_Handler,
 		},
 		{
-			MethodName: "GetJugada",
-			Handler:    _HelloService_GetJugada_Handler,
+			MethodName: "SendJugada",
+			Handler:    _LiderService_SendJugada_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "comunicacion.proto",
+}
+
+// NameNodeServiceClient is the client API for NameNodeService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type NameNodeServiceClient interface {
+	SendJugada(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*HelloReply, error)
+	GetJugadas(ctx context.Context, in *RequestJugadas, opts ...grpc.CallOption) (*HelloReply, error)
+}
+
+type nameNodeServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewNameNodeServiceClient(cc grpc.ClientConnInterface) NameNodeServiceClient {
+	return &nameNodeServiceClient{cc}
+}
+
+func (c *nameNodeServiceClient) SendJugada(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*HelloReply, error) {
+	out := new(HelloReply)
+	err := c.cc.Invoke(ctx, "/grpc.NameNodeService/SendJugada", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nameNodeServiceClient) GetJugadas(ctx context.Context, in *RequestJugadas, opts ...grpc.CallOption) (*HelloReply, error) {
+	out := new(HelloReply)
+	err := c.cc.Invoke(ctx, "/grpc.NameNodeService/GetJugadas", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// NameNodeServiceServer is the server API for NameNodeService service.
+// All implementations must embed UnimplementedNameNodeServiceServer
+// for forward compatibility
+type NameNodeServiceServer interface {
+	SendJugada(context.Context, *Jugada) (*HelloReply, error)
+	GetJugadas(context.Context, *RequestJugadas) (*HelloReply, error)
+	mustEmbedUnimplementedNameNodeServiceServer()
+}
+
+// UnimplementedNameNodeServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedNameNodeServiceServer struct {
+}
+
+func (UnimplementedNameNodeServiceServer) SendJugada(context.Context, *Jugada) (*HelloReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendJugada not implemented")
+}
+func (UnimplementedNameNodeServiceServer) GetJugadas(context.Context, *RequestJugadas) (*HelloReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetJugadas not implemented")
+}
+func (UnimplementedNameNodeServiceServer) mustEmbedUnimplementedNameNodeServiceServer() {}
+
+// UnsafeNameNodeServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to NameNodeServiceServer will
+// result in compilation errors.
+type UnsafeNameNodeServiceServer interface {
+	mustEmbedUnimplementedNameNodeServiceServer()
+}
+
+func RegisterNameNodeServiceServer(s grpc.ServiceRegistrar, srv NameNodeServiceServer) {
+	s.RegisterService(&NameNodeService_ServiceDesc, srv)
+}
+
+func _NameNodeService_SendJugada_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Jugada)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NameNodeServiceServer).SendJugada(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grpc.NameNodeService/SendJugada",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NameNodeServiceServer).SendJugada(ctx, req.(*Jugada))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NameNodeService_GetJugadas_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestJugadas)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NameNodeServiceServer).GetJugadas(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grpc.NameNodeService/GetJugadas",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NameNodeServiceServer).GetJugadas(ctx, req.(*RequestJugadas))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// NameNodeService_ServiceDesc is the grpc.ServiceDesc for NameNodeService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var NameNodeService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "grpc.NameNodeService",
+	HandlerType: (*NameNodeServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "SendJugada",
+			Handler:    _NameNodeService_SendJugada_Handler,
+		},
+		{
+			MethodName: "GetJugadas",
+			Handler:    _NameNodeService_GetJugadas_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

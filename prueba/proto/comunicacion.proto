@@ -21,10 +21,20 @@ message Resultado{
     int32 Estado = 2;
 }
 
-service HelloService {
+service LiderService {
     rpc SayHello (HelloRequest) returns (HelloReply);
     rpc RequestPozo (RequestPozoActual) returns (ResponsePozoActual);
-    rpc GetJugada (Jugada) returns (Resultado);
+    rpc SendJugada (Jugada) returns (Resultado);
+}
+
+
+message RequestJugadas{
+    int32 ID = 1;
+}
+
+service NameNodeService{
+    rpc SendJugada (Jugada) returns (HelloReply);
+    rpc GetJugadas (RequestJugadas) returns (HelloReply);
 }
 
 message RequestPozoActual{
