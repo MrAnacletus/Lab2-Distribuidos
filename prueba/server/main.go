@@ -34,7 +34,7 @@ func (s *server) SendJugada(ctx context.Context, in *pb.Jugada) (*pb.Resultado, 
 	defer conn.Close()
 
 	//Se crea un cliente para la conexion
-	serviceClient := pb.NewLiderServiceClient(conn)
+	serviceClient := pb.NewNameNodeServiceClient(conn)
 	//Se envia la jugada para que sea escrita en el archivo
 	_, err = serviceClient.SendJugada(context.Background(), &pb.Jugada{Jugada: in.GetJugada(), ID: in.GetID()})
 	if err != nil {
