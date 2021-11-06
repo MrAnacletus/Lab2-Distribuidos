@@ -19,6 +19,7 @@ type Jugada struct {
 
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	fmt.Println("Peticion recibida, aceptando juego")
+
 	return &pb.HelloReply{Message: "Juego aceptado"}, nil
 }
 
@@ -65,22 +66,7 @@ func (s *server) RequestPozo(ctx context.Context, in *pb.RequestPozoActual) (*pb
 	return res, nil
 }
 
-// func EnviarJugadas(){
-// 	conn, err := grpc.Dial("localhost:50052", grpc.WithInsecure())
-// 	if err != nil {
-// 		log.Fatalf("No se pudo conectar al server: %v",err)
-// 	}
-// 	defer conn.Close()
 
-// 	client := pb.NewHelloServiceClient(conn)
-
-// 	fmt.Println("Enviando jugadas")
-// 	resp, err := client.GetJugada(context.Background(), &pb.Jugada{})
-// 	if err != nil {
-// 		log.Fatalf("No se pudo enviar el mensaje: %v",err)
-// 	}
-// 	fmt.Println("Respuesta: ",resp.Message)
-// }
 
 func ServidorCliente(){
 	listener , err := net.Listen("tcp", ":8080")
@@ -97,4 +83,5 @@ func ServidorCliente(){
 
 func main(){
 	ServidorCliente()
+	
 }

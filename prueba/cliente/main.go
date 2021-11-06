@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"math/rand"
 
 	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
 	"google.golang.org/grpc"
@@ -69,6 +70,15 @@ func PedirPozo(){
 
 }
 
+type Bots struct{
+	ID int32
+	Estado int32
+}
+
+var ListaJugadores [16]Bots
+
+
+
 func juego1(){
 	for i := 0; i < 4; i++ {
 		fmt.Println("Elija un numero entre 1 y 10, recuerde que sus numeros deben sumar 21.")
@@ -76,10 +86,23 @@ func juego1(){
 		fmt.Scanln(&numero1)
 		var j = Jugada{ID: 1, jugada: int32(numero1)}
 		EnviarJugada(j)
+
+		//Juego de los bots
+		for i:= 0; i < 15; i++ {
+			if ListaJugadores[i].Estado == 1 {
+				numero2 := rand.Intn(10) + 1
+				var j = Jugada{ID: ListaJugadores[i].ID, jugada: int32(numero2)}
+				EnviarJugada(j)
+			}
+		}
 	}
 }
 
 func main(){
+	for i := 0; i < 16; i++ {
+		ListaJugadores[i].ID = int32(i + 1)
+		ListaJugadores[i].Estado = 1
+	}
 	fmt.Println("Iniciando el cliente")
 	fmt.Println("Bienvenido al Juego del Calamar")
 	fmt.Println("Para comenzar a jugar, presiona enter")
