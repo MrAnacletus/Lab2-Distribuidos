@@ -102,6 +102,8 @@ var Vivos int32
 
 
 func juego1()(bool){
+	fmt.Println("--------------------------------------------------------O--------------------------------------------------------")
+	fmt.Println("Primer Juego!!!!!!!!!!")
 	var suma int32 = 0
 	for i := 0; i < 4; i++ {
 		if ListaJugadores[0].Estado == 1 {
@@ -149,6 +151,8 @@ func juego1()(bool){
 }
 
 func juego2()(bool){
+	fmt.Println("--------------------------------------------------------O--------------------------------------------------------")
+	fmt.Println("Segundo Juego!!!!!!!!!!")
 	var suma1 int32 = 0
 	var suma2 int32 = 0
 	//Dividir los equipos
@@ -269,7 +273,7 @@ func main(){
 	fmt.Println("2. Ver pozo")
 	var opcion int
 	fmt.Scanln(&opcion)
-	for{
+	for {
 		if opcion == 1 {
 			if !juego1(){
 				fmt.Println("El juego ha terminado, y tenemos un ganador!!!!!!!!!")
