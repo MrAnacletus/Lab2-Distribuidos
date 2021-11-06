@@ -77,6 +77,8 @@ type Bots struct{
 
 var ListaJugadores [16]Bots
 
+var Vivos int32
+
 
 
 func juego1()(bool){
@@ -95,6 +97,11 @@ func juego1()(bool){
 			}else{
 				fmt.Println("El jugador 1 ha muerto")
 				ListaJugadores[0].Estado = 0
+				Vivos -= 1
+			}
+			if Vivos == 1 {
+				fmt.Println("Tenemos un ganador la conchadesumadre")
+				return false
 			}
 		}
 
@@ -108,6 +115,11 @@ func juego1()(bool){
 				}else{
 					fmt.Println("El jugador " + fmt.Sprint(ListaJugadores[i].ID) + " ha muerto")
 					ListaJugadores[i].Estado = 0
+					Vivos -= 1
+				}
+				if Vivos == 1 {
+					fmt.Println("Tenemos un ganador la conchadesumadre")
+					return false
 				}
 			}
 		}
@@ -121,6 +133,9 @@ func main(){
 		ListaJugadores[i].ID = int32(i + 1)
 		ListaJugadores[i].Estado = 1
 	}
+
+	Vivos = 16
+
 	fmt.Println("Iniciando el cliente")
 	fmt.Println("Bienvenido al Juego del Calamar")
 	fmt.Println("Para comenzar a jugar, presiona enter")
@@ -135,7 +150,12 @@ func main(){
 	for{
 		if opcion == 1 {
 			if !juego1(){
-				fmt.Println("El juego ha terminado")
+				fmt.Println("El juego ha terminado, y tenemos un ganador!!!!!!!!!")
+				for i := 0; i < 16; i++ {
+					if ListaJugadores[i].Estado == 1 {
+						fmt.Println("El ganador es el jugador " + fmt.Sprint(ListaJugadores[i].ID))
+					}
+				}
 				break
 			}
 		}
