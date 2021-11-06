@@ -30,7 +30,7 @@ func (s *server) SayHelloAgain(ctx context.Context, in *pb.HelloRequest) (*pb.He
 func (s *server) GetJugada(ctx context.Context, in *pb.Jugada) (*pb.HelloReply, error) {
 	// Enviarla a NameNode
 	fmt.Println("Jugadas recibidas, jugada:" + fmt.Sprint(in.GetJugada()) + " del jugador: " + fmt.Sprint(in.GetID()))
-	conn, err := grpc.Dial("localhost:8081", grpc.WithInsecure())
+	conn, err := grpc.Dial("10.6.40.219:8080", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("No se pudo conectar con el server NameNode: %v",err)
 	}
