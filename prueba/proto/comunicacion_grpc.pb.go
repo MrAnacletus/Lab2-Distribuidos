@@ -19,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type HelloServiceClient interface {
 	SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error)
-	SayHelloAgain(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error)
+	RequestPozo(ctx context.Context, in *RequestPozoActual, opts ...grpc.CallOption) (*ResponsePozoActual, error)
 	GetJugada(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*HelloReply, error)
 }
 
@@ -40,9 +40,9 @@ func (c *helloServiceClient) SayHello(ctx context.Context, in *HelloRequest, opt
 	return out, nil
 }
 
-func (c *helloServiceClient) SayHelloAgain(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error) {
-	out := new(HelloReply)
-	err := c.cc.Invoke(ctx, "/grpc.HelloService/SayHelloAgain", in, out, opts...)
+func (c *helloServiceClient) RequestPozo(ctx context.Context, in *RequestPozoActual, opts ...grpc.CallOption) (*ResponsePozoActual, error) {
+	out := new(ResponsePozoActual)
+	err := c.cc.Invoke(ctx, "/grpc.HelloService/RequestPozo", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +63,7 @@ func (c *helloServiceClient) GetJugada(ctx context.Context, in *Jugada, opts ...
 // for forward compatibility
 type HelloServiceServer interface {
 	SayHello(context.Context, *HelloRequest) (*HelloReply, error)
-	SayHelloAgain(context.Context, *HelloRequest) (*HelloReply, error)
+	RequestPozo(context.Context, *RequestPozoActual) (*ResponsePozoActual, error)
 	GetJugada(context.Context, *Jugada) (*HelloReply, error)
 	mustEmbedUnimplementedHelloServiceServer()
 }
@@ -75,8 +75,8 @@ type UnimplementedHelloServiceServer struct {
 func (UnimplementedHelloServiceServer) SayHello(context.Context, *HelloRequest) (*HelloReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
 }
-func (UnimplementedHelloServiceServer) SayHelloAgain(context.Context, *HelloRequest) (*HelloReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SayHelloAgain not implemented")
+func (UnimplementedHelloServiceServer) RequestPozo(context.Context, *RequestPozoActual) (*ResponsePozoActual, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RequestPozo not implemented")
 }
 func (UnimplementedHelloServiceServer) GetJugada(context.Context, *Jugada) (*HelloReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetJugada not implemented")
@@ -112,20 +112,20 @@ func _HelloService_SayHello_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
-func _HelloService_SayHelloAgain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(HelloRequest)
+func _HelloService_RequestPozo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestPozoActual)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(HelloServiceServer).SayHelloAgain(ctx, in)
+		return srv.(HelloServiceServer).RequestPozo(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/grpc.HelloService/SayHelloAgain",
+		FullMethod: "/grpc.HelloService/RequestPozo",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(HelloServiceServer).SayHelloAgain(ctx, req.(*HelloRequest))
+		return srv.(HelloServiceServer).RequestPozo(ctx, req.(*RequestPozoActual))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -160,8 +160,8 @@ var HelloService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _HelloService_SayHello_Handler,
 		},
 		{
-			MethodName: "SayHelloAgain",
-			Handler:    _HelloService_SayHelloAgain_Handler,
+			MethodName: "RequestPozo",
+			Handler:    _HelloService_RequestPozo_Handler,
 		},
 		{
 			MethodName: "GetJugada",

@@ -50,6 +50,25 @@ func EnviarJugada(J Jugada){
 	fmt.Println(res.Message)
 }
 
+func PedirPozo(){
+	//Se establece la conexión con el servidor
+	conn, err := grpc.Dial("10.6.40.218:8080",grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("Error al conectarse con el servidor Lider: %v", err)
+	}
+	defer conn.Close()
+
+	//Se crea un cliente para la comunicación con el servidor
+	serviceCLient := pb.NewHelloServiceClient(conn)
+	//Se envia la petición de pozo al servidor
+	res, err := serviceCLient.RequestPozo(context.Background(), &pb.RequestPozoActual{pozo: 0})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("El pozo actual es: " + fmt.Sprint(res.Pozo))
+
+}
+
 func juego1(){
 	for i := 0; i < 4; i++ {
 		fmt.Println("Elija un numero entre 1 y 10, recuerde que sus numeros deben sumar 21.")
