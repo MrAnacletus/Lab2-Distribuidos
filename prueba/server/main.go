@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"math/rand"
 	"fmt"
 	"log"
 	"net"
@@ -14,7 +15,7 @@ type server struct{
 }
 type Jugada struct {
 	ID int32
-	jugada int32
+	Jugada int32
 }
 
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
@@ -28,7 +29,7 @@ func (s *server) SayHelloAgain(ctx context.Context, in *pb.HelloRequest) (*pb.He
 	return &pb.HelloReply{Message: "Hello "}, nil
 }
 
-func (s *server) GetJugada(ctx context.Context, in *pb.Jugada) (*pb.HelloReply, error) {
+func (s *server) GetJugada(ctx context.Context, in *pb.Jugada) (*pb.Resultado, error) {
 	// Enviarla a NameNode
 	fmt.Println("Jugadas recibidas, jugada:" + fmt.Sprint(in.GetJugada()) + " del jugador: " + fmt.Sprint(in.GetID()))
 	conn, err := grpc.Dial("10.6.40.219:8080", grpc.WithInsecure())
@@ -44,7 +45,13 @@ func (s *server) GetJugada(ctx context.Context, in *pb.Jugada) (*pb.HelloReply, 
 	if err != nil {
 		log.Fatalf("No se pudo enviar la jugada: %v",err)
 	}
-	return &pb.HelloReply{Message: "Jugadas recibidas, gracias"}, nil
+	//Lider debe elegir un numero entre 6 y 10
+	JugadaLider := rand.Intn(4) + 6
+	if JugadaLider <= int(in.GetJugada()){
+		//Notificar a pozo que alguien murio por rabbitmq
+		return &pb.Resultado{ID: in.GetID(),Estado: 0}, nil
+	}
+	return &pb.Resultado{ID: in.GetID(),Estado: 1}, nil
 }
 
 func (s *server) RequestPozo(ctx context.Context, in *pb.RequestPozoActual) (*pb.ResponsePozoActual, error) {
@@ -65,8 +72,6 @@ func (s *server) RequestPozo(ctx context.Context, in *pb.RequestPozoActual) (*pb
 	}
 	return res, nil
 }
-
-
 
 func ServidorCliente(){
 	listener , err := net.Listen("tcp", ":8080")

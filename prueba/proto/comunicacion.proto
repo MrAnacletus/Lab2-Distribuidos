@@ -21,15 +21,10 @@ message Resultado{
     int32 Estado = 2;
 }
 
-message Resultados{
-    repeated Resultado Lista = 1;
-}
-
 service HelloService {
     rpc SayHello (HelloRequest) returns (HelloReply);
     rpc RequestPozo (RequestPozoActual) returns (ResponsePozoActual);
-    rpc GetJugada (Jugada) returns (HelloReply);
-    rpc GetResultados (HelloRequest) returns (Resultados);
+    rpc GetJugada (Jugada) returns (Resultado);
 }
 
 message RequestPozoActual{

@@ -20,8 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 type HelloServiceClient interface {
 	SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error)
 	RequestPozo(ctx context.Context, in *RequestPozoActual, opts ...grpc.CallOption) (*ResponsePozoActual, error)
-	GetJugada(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*HelloReply, error)
-	GetResultados(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*Resultados, error)
+	GetJugada(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*Resultado, error)
 }
 
 type helloServiceClient struct {
@@ -50,18 +49,9 @@ func (c *helloServiceClient) RequestPozo(ctx context.Context, in *RequestPozoAct
 	return out, nil
 }
 
-func (c *helloServiceClient) GetJugada(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*HelloReply, error) {
-	out := new(HelloReply)
+func (c *helloServiceClient) GetJugada(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*Resultado, error) {
+	out := new(Resultado)
 	err := c.cc.Invoke(ctx, "/grpc.HelloService/GetJugada", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *helloServiceClient) GetResultados(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*Resultados, error) {
-	out := new(Resultados)
-	err := c.cc.Invoke(ctx, "/grpc.HelloService/GetResultados", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -74,8 +64,7 @@ func (c *helloServiceClient) GetResultados(ctx context.Context, in *HelloRequest
 type HelloServiceServer interface {
 	SayHello(context.Context, *HelloRequest) (*HelloReply, error)
 	RequestPozo(context.Context, *RequestPozoActual) (*ResponsePozoActual, error)
-	GetJugada(context.Context, *Jugada) (*HelloReply, error)
-	GetResultados(context.Context, *HelloRequest) (*Resultados, error)
+	GetJugada(context.Context, *Jugada) (*Resultado, error)
 	mustEmbedUnimplementedHelloServiceServer()
 }
 
@@ -89,11 +78,8 @@ func (UnimplementedHelloServiceServer) SayHello(context.Context, *HelloRequest) 
 func (UnimplementedHelloServiceServer) RequestPozo(context.Context, *RequestPozoActual) (*ResponsePozoActual, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RequestPozo not implemented")
 }
-func (UnimplementedHelloServiceServer) GetJugada(context.Context, *Jugada) (*HelloReply, error) {
+func (UnimplementedHelloServiceServer) GetJugada(context.Context, *Jugada) (*Resultado, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetJugada not implemented")
-}
-func (UnimplementedHelloServiceServer) GetResultados(context.Context, *HelloRequest) (*Resultados, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetResultados not implemented")
 }
 func (UnimplementedHelloServiceServer) mustEmbedUnimplementedHelloServiceServer() {}
 
@@ -162,24 +148,6 @@ func _HelloService_GetJugada_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _HelloService_GetResultados_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(HelloRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(HelloServiceServer).GetResultados(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/grpc.HelloService/GetResultados",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(HelloServiceServer).GetResultados(ctx, req.(*HelloRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // HelloService_ServiceDesc is the grpc.ServiceDesc for HelloService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -198,10 +166,6 @@ var HelloService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetJugada",
 			Handler:    _HelloService_GetJugada_Handler,
-		},
-		{
-			MethodName: "GetResultados",
-			Handler:    _HelloService_GetResultados_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
