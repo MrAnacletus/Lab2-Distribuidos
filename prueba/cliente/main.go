@@ -65,7 +65,7 @@ func PedirPozo(){
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("El pozo actual es: " + fmt.Sprint(res.Pozo))
+	fmt.Println("El pozo actual es: " + fmt.Sprint(res.GetPozo()))
 
 }
 
