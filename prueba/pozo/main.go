@@ -17,7 +17,7 @@ type server struct{
 var POZOACTUAL int32
 
 
-func (s *server) PozoActual(ctx context.Context, req *pb.RequestPozoActual) (*pb.ResponsePozoActual, error) {
+func (s *server) RequestPozo(ctx context.Context, req *pb.RequestPozoActual) (*pb.ResponsePozoActual, error) {
 	return &pb.ResponsePozoActual{
 		Pozo: POZOACTUAL,
 	}, nil
