@@ -19,5 +19,5 @@ message Jugada{
 service HelloService {
     rpc SayHello (HelloRequest) returns (HelloReply);
     rpc SayHelloAgain (HelloRequest) returns (HelloReply);
-    rpc GetJugadas (Jugada) returns (HelloReply);
+    rpc GetJugada (Jugada) returns (HelloReply);
 }
