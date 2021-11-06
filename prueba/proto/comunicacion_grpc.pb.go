@@ -21,7 +21,7 @@ type LiderServiceClient interface {
 	SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error)
 	RequestPozo(ctx context.Context, in *RequestPozoActual, opts ...grpc.CallOption) (*ResponsePozoActual, error)
 	SendJugada(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*Resultado, error)
-	SendJugada2(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*Resultado, error)
+	SendJugada2(ctx context.Context, in *Jugada2, opts ...grpc.CallOption) (*Resultado, error)
 	SendJugada3(ctx context.Context, in *Jugada3, opts ...grpc.CallOption) (*Resultado, error)
 }
 
@@ -60,7 +60,7 @@ func (c *liderServiceClient) SendJugada(ctx context.Context, in *Jugada, opts ..
 	return out, nil
 }
 
-func (c *liderServiceClient) SendJugada2(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*Resultado, error) {
+func (c *liderServiceClient) SendJugada2(ctx context.Context, in *Jugada2, opts ...grpc.CallOption) (*Resultado, error) {
 	out := new(Resultado)
 	err := c.cc.Invoke(ctx, "/grpc.LiderService/SendJugada2", in, out, opts...)
 	if err != nil {
@@ -85,7 +85,7 @@ type LiderServiceServer interface {
 	SayHello(context.Context, *HelloRequest) (*HelloReply, error)
 	RequestPozo(context.Context, *RequestPozoActual) (*ResponsePozoActual, error)
 	SendJugada(context.Context, *Jugada) (*Resultado, error)
-	SendJugada2(context.Context, *Jugada) (*Resultado, error)
+	SendJugada2(context.Context, *Jugada2) (*Resultado, error)
 	SendJugada3(context.Context, *Jugada3) (*Resultado, error)
 	mustEmbedUnimplementedLiderServiceServer()
 }
@@ -103,7 +103,7 @@ func (UnimplementedLiderServiceServer) RequestPozo(context.Context, *RequestPozo
 func (UnimplementedLiderServiceServer) SendJugada(context.Context, *Jugada) (*Resultado, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendJugada not implemented")
 }
-func (UnimplementedLiderServiceServer) SendJugada2(context.Context, *Jugada) (*Resultado, error) {
+func (UnimplementedLiderServiceServer) SendJugada2(context.Context, *Jugada2) (*Resultado, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendJugada2 not implemented")
 }
 func (UnimplementedLiderServiceServer) SendJugada3(context.Context, *Jugada3) (*Resultado, error) {
@@ -177,7 +177,7 @@ func _LiderService_SendJugada_Handler(srv interface{}, ctx context.Context, dec 
 }
 
 func _LiderService_SendJugada2_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Jugada)
+	in := new(Jugada2)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -189,7 +189,7 @@ func _LiderService_SendJugada2_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: "/grpc.LiderService/SendJugada2",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LiderServiceServer).SendJugada2(ctx, req.(*Jugada))
+		return srv.(LiderServiceServer).SendJugada2(ctx, req.(*Jugada2))
 	}
 	return interceptor(ctx, in, info, handler)
 }

@@ -87,7 +87,30 @@ func (s *server) SendJugada2(ctx context.Context, in *pb.Jugada) (*pb.Resultado,
 			return &pb.Resultado{ID: 1,Estado: 0}, nil
 		}
 	}
+}
 
+func (s *server) SendJugada3 (ctx context.Context, in *pb.Jugada3) (*pb.Resultado, error) {
+	//Recibir las jugadas
+	ID1 := in.ID1
+	ID2 := in.ID2
+	jugada1 := in.Jugada1
+	jugada2 := in.Jugada2
+
+	//Lider debe elegir un numero entre 1 y 10
+	JugadaLider := rand.Intn(10) + 1
+	//Calcular distancias con el lider
+	Distancia1 := abs((JugadaLider - int(jugada1)))
+	Distancia2 := abs((JugadaLider - int(jugada2)))
+	//Decidir al ganador
+	if Distancia1 < Distancia2{
+		return &pb.Resultado{ID: ID1,Estado: 1}, nil
+	}
+	return &pb.Resultado{ID: ID2,Estado: 1}, nil
+
+}
+
+func abs(i int) {
+	panic("unimplemented")
 }
 
 
