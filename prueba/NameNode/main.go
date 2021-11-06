@@ -25,6 +25,10 @@ func (s *server) SayHelloAgain(ctx context.Context, in *pb.HelloRequest) (*pb.He
 func (s *server) SendJugada(ctx context.Context, in *pb.Jugada) (*pb.HelloReply, error) {
 	return &pb.HelloReply{Message: "Jugada Recibida"}, nil
 }
+
+func (s *server) GetJugada(ctx context.Context, in *pb.RequestJugadas) (*pb.HelloReply, error) {
+	return &pb.HelloReply{Message: "Jugada Recibida"}, nil
+}
 func ServidorNameNode(){
 	listener , err := net.Listen("tcp", ":8080")
 	if err != nil{
