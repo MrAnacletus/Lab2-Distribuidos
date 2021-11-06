@@ -27,7 +27,7 @@ func (s *server) GetJugadas(ctx context.Context, in *pb.Jugadas) (*pb.HelloReply
 }
 
 func ServidorNameNode(){
-	listener , err := net.Listen("tcp", ":50052")
+	listener , err := net.Listen("tcp", ":8080")
 	if err != nil{
 		fmt.Println("Error al iniciar el servidor")
 		return
