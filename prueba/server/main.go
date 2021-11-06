@@ -24,11 +24,6 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	return &pb.HelloReply{Message: "Juego aceptado"}, nil
 }
 
-func (s *server) SayHelloAgain(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	fmt.Println("Enviado: ")
-	return &pb.HelloReply{Message: "Hello "}, nil
-}
-
 func (s *server) SendJugada(ctx context.Context, in *pb.Jugada) (*pb.Resultado, error) {
 	// Enviarla a NameNode
 	fmt.Println("Jugadas recibidas, jugada:" + fmt.Sprint(in.GetJugada()) + " del jugador: " + fmt.Sprint(in.GetID()))
@@ -40,7 +35,7 @@ func (s *server) SendJugada(ctx context.Context, in *pb.Jugada) (*pb.Resultado, 
 
 	//Se crea un cliente para la conexion
 	serviceClient := pb.NewLiderServiceClient(conn)
-	//Se envia la jugada apra que sea escrita en el archivo
+	//Se envia la jugada para que sea escrita en el archivo
 	_, err = serviceClient.SendJugada(context.Background(), &pb.Jugada{Jugada: in.GetJugada(), ID: in.GetID()})
 	if err != nil {
 		log.Fatalf("No se pudo enviar la jugada: %v",err)

@@ -13,15 +13,6 @@ type server struct{
 	pb.UnimplementedNameNodeServiceServer
 }
 
-func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	return &pb.HelloReply{Message: "Hello " + in.Name}, nil
-}
-
-func (s *server) SayHelloAgain(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	fmt.Println("Enviado: ")
-	return &pb.HelloReply{Message: "Hello "}, nil
-}
-
 func (s *server) SendJugada(ctx context.Context, in *pb.Jugada) (*pb.HelloReply, error) {
 	return &pb.HelloReply{Message: "Jugada Recibida"}, nil
 }
