@@ -29,22 +29,22 @@ func (s *server) GetJugada(ctx context.Context, in *pb.Jugada) (*pb.HelloReply, 
 	return &pb.HelloReply{Message: "Jugadas recibidas, gracias"}, nil
 }
 
-func EnviarJugadas(){
-	conn, err := grpc.Dial("localhost:50052", grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("No se pudo conectar al server: %v",err)
-	}
-	defer conn.Close()
+// func EnviarJugadas(){
+// 	conn, err := grpc.Dial("localhost:50052", grpc.WithInsecure())
+// 	if err != nil {
+// 		log.Fatalf("No se pudo conectar al server: %v",err)
+// 	}
+// 	defer conn.Close()
 
-	client := pb.NewHelloServiceClient(conn)
+// 	client := pb.NewHelloServiceClient(conn)
 
-	fmt.Println("Enviando jugadas")
-	resp, err := client.GetJugadas(context.Background(), &pb.Jugadas{})
-	if err != nil {
-		log.Fatalf("No se pudo enviar el mensaje: %v",err)
-	}
-	fmt.Println("Respuesta: ",resp.Message)
-}
+// 	fmt.Println("Enviando jugadas")
+// 	resp, err := client.GetJugada(context.Background(), &pb.Jugada{})
+// 	if err != nil {
+// 		log.Fatalf("No se pudo enviar el mensaje: %v",err)
+// 	}
+// 	fmt.Println("Respuesta: ",resp.Message)
+// }
 
 func ServidorCliente(){
 	listener , err := net.Listen("tcp", ":8080")
