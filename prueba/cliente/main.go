@@ -51,6 +51,25 @@ func EnviarJugada(J Jugada)(bool){
 	return res.GetEstado() == 1
 }
 
+func EnviarJugada2(J Jugada)(Jugada){
+	//Se establece la conexión con el servidor
+	conn, err := grpc.Dial("10.6.40.218:8080",grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("Error al conectarse con el servidor Lider: %v", err)
+	}
+	defer conn.Close()
+
+	//Se crea un cliente para la comunicación con el servidor
+	serviceCLient := pb.NewLiderServiceClient(conn)
+	//Se envia la Jugada al servidor
+	res, err := serviceCLient.SendJugada2(context.Background(), &pb.Jugada{ID: J.ID, Jugada: J.jugada})
+	if err != nil {
+		log.Fatalf("Error al enviar la Jugada: %v", err)
+	}
+
+	return Jugada{ID: res.GetID(), jugada: res.GetEstado()}
+}
+
 func PedirPozo(){
 	//Se establece la conexión con el servidor
 	conn, err := grpc.Dial("10.6.40.218:8080",grpc.WithInsecure())
@@ -199,6 +218,35 @@ func juego2()(bool){
 			}
 		}
 	}
+
+	//Enviar sumas al Lider
+	var resultado = EnviarJugada2(Jugada{ID: suma1, jugada: suma2})
+	//Recorrer los jugadores
+	for i := 0; i < 16; i++{
+		if ListaJugadores[i].Estado == 1{
+			if ListaJugadores[i].Team == 1 {
+				if resultado.ID == 1 {
+					fmt.Println("El jugador " + fmt.Sprint(ListaJugadores[i].ID) + " sigue vivo")
+				}else{
+					fmt.Println("El jugador " + fmt.Sprint(ListaJugadores[i].ID) + " ha muerto")
+					ListaJugadores[i].Estado = 0
+					Vivos -= 1
+				}
+			}else{
+				if resultado.jugada == 1 {
+					fmt.Println("El jugador " + fmt.Sprint(ListaJugadores[i].ID) + " sigue vivo")
+				}else{
+					fmt.Println("El jugador " + fmt.Sprint(ListaJugadores[i].ID) + " ha muerto")
+					ListaJugadores[i].Estado = 0
+					Vivos -= 1
+				}
+			}
+		}
+	}
+	if Vivos == 1 {
+		fmt.Println("Tenemos un ganador la conchadesumadre")
+		return false
+	}
 	return true
 }
 
@@ -224,6 +272,15 @@ func main(){
 	for{
 		if opcion == 1 {
 			if !juego1(){
+				fmt.Println("El juego ha terminado, y tenemos un ganador!!!!!!!!!")
+				for i := 0; i < 16; i++ {
+					if ListaJugadores[i].Estado == 1 {
+						fmt.Println("El ganador es el jugador " + fmt.Sprint(ListaJugadores[i].ID))
+					}
+				}
+				break
+			}
+			if !juego2(){
 				fmt.Println("El juego ha terminado, y tenemos un ganador!!!!!!!!!")
 				for i := 0; i < 16; i++ {
 					if ListaJugadores[i].Estado == 1 {

@@ -49,6 +49,48 @@ func (s *server) SendJugada(ctx context.Context, in *pb.Jugada) (*pb.Resultado, 
 	return &pb.Resultado{ID: in.GetID(),Estado: 1}, nil
 }
 
+func (s *server) SendJugada2(ctx context.Context, in *pb.Jugada) (*pb.Resultado, error) {
+	//Recibir las jugadas
+	T1 := in.GetID()
+	T2 := in.GetJugada()
+
+	JugadaLider := (rand.Intn(4) + 1) % 2
+
+	if JugadaLider == 0{
+		if  T1%2 == 0 && T2%2 == 0{
+			return &pb.Resultado{ID: 1,Estado: 1}, nil
+		}else if T1%2 == 1 && T2%2 == 1{
+			Decididor := rand.Intn(1)
+			if Decididor == 0{
+				return &pb.Resultado{ID: 1,Estado: 0}, nil
+			}else{
+				return &pb.Resultado{ID: 0,Estado: 1}, nil
+			}
+		}else if T1%2 == 0 && T2%2 == 1{
+			return &pb.Resultado{ID: 1,Estado: 0}, nil
+		}else{
+			return &pb.Resultado{ID: 0,Estado: 1}, nil
+		}
+	}else{
+		if  T1%2 == 1 && T2%2 == 1{
+			return &pb.Resultado{ID: 1,Estado: 1}, nil
+		}else if T1%2 == 0 && T2%2 == 0{
+			Decididor := rand.Intn(1)
+			if Decididor == 0{
+				return &pb.Resultado{ID: 1,Estado: 0}, nil
+			}else{
+				return &pb.Resultado{ID: 0,Estado: 1}, nil
+			}
+		}else if T1%2 == 0 && T2%2 == 1{
+			return &pb.Resultado{ID: 0,Estado: 1}, nil
+		}else{
+			return &pb.Resultado{ID: 1,Estado: 0}, nil
+		}
+	}
+
+}
+
+
 func (s *server) RequestPozo(ctx context.Context, in *pb.RequestPozoActual) (*pb.ResponsePozoActual, error) {
 	// Enviarla a Pozo
 	fmt.Println("Peticion recibida, enviando peticion al servidor Pozo")
