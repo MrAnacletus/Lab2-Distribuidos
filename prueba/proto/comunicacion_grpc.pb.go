@@ -22,6 +22,7 @@ type LiderServiceClient interface {
 	RequestPozo(ctx context.Context, in *RequestPozoActual, opts ...grpc.CallOption) (*ResponsePozoActual, error)
 	SendJugada(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*Resultado, error)
 	SendJugada2(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*Resultado, error)
+	SendJugada3(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*Resultado, error)
 }
 
 type liderServiceClient struct {
@@ -68,6 +69,15 @@ func (c *liderServiceClient) SendJugada2(ctx context.Context, in *Jugada, opts .
 	return out, nil
 }
 
+func (c *liderServiceClient) SendJugada3(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*Resultado, error) {
+	out := new(Resultado)
+	err := c.cc.Invoke(ctx, "/grpc.LiderService/SendJugada3", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LiderServiceServer is the server API for LiderService service.
 // All implementations must embed UnimplementedLiderServiceServer
 // for forward compatibility
@@ -76,6 +86,7 @@ type LiderServiceServer interface {
 	RequestPozo(context.Context, *RequestPozoActual) (*ResponsePozoActual, error)
 	SendJugada(context.Context, *Jugada) (*Resultado, error)
 	SendJugada2(context.Context, *Jugada) (*Resultado, error)
+	SendJugada3(context.Context, *Jugada) (*Resultado, error)
 	mustEmbedUnimplementedLiderServiceServer()
 }
 
@@ -94,6 +105,9 @@ func (UnimplementedLiderServiceServer) SendJugada(context.Context, *Jugada) (*Re
 }
 func (UnimplementedLiderServiceServer) SendJugada2(context.Context, *Jugada) (*Resultado, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendJugada2 not implemented")
+}
+func (UnimplementedLiderServiceServer) SendJugada3(context.Context, *Jugada) (*Resultado, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendJugada3 not implemented")
 }
 func (UnimplementedLiderServiceServer) mustEmbedUnimplementedLiderServiceServer() {}
 
@@ -180,6 +194,24 @@ func _LiderService_SendJugada2_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _LiderService_SendJugada3_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Jugada)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LiderServiceServer).SendJugada3(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grpc.LiderService/SendJugada3",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LiderServiceServer).SendJugada3(ctx, req.(*Jugada))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // LiderService_ServiceDesc is the grpc.ServiceDesc for LiderService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -202,6 +234,10 @@ var LiderService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SendJugada2",
 			Handler:    _LiderService_SendJugada2_Handler,
+		},
+		{
+			MethodName: "SendJugada3",
+			Handler:    _LiderService_SendJugada3_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

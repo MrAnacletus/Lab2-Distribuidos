@@ -26,6 +26,7 @@ service LiderService {
     rpc RequestPozo (RequestPozoActual) returns (ResponsePozoActual);
     rpc SendJugada (Jugada) returns (Resultado);
     rpc SendJugada2 (Jugada) returns (Resultado);
+    rpc SendJugada3 (Jugada) returns (Resultado);
 }
 
 
