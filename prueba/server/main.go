@@ -58,7 +58,7 @@ func (s *server) RequestPozo(ctx context.Context, in *pb.RequestPozoActual) (*pb
 	//Se crea un cliente para la conexion
 	serviceClient := pb.NewPozoServiceClient(conn)
 	//Se envia la peticion al servidor pozo
-	res, err := serviceClient.RequestPozo(context.Background(), &pb.RequestPozoActual{pozo: 1})
+	res, err := serviceClient.RequestPozo(context.Background(), &pb.RequestPozoActual{Pozo: 1})
 	if err != nil {
 		log.Fatalf("No se pudo enviar la peticion: %v",err)
 	}
