@@ -88,10 +88,11 @@ func EnviarJugada3(J Equipo)(Jugada){
 	//Se crea un cliente para la comunicación con el servidor
 	serviceCLient := pb.NewLiderServiceClient(conn)
 	//Se envia la Jugada al servidor
-	res, err := serviceCLient.SendJugada3(context.Background(), &pb.Jugada3{ID: J.ID, Jugada: J.jugada})
+	res, err := serviceCLient.SendJugada3(context.Background(), &pb.Jugada3{ID1: J.ID1,ID2: J.ID2, Jugada1: J.Jugada1, Jugada2: J.Jugada2})
 	if err != nil {
 		log.Fatalf("Error al enviar la Jugada: %v", err)
 	}
+	return Jugada{ID: res.GetID(), jugada: res.GetEstado()}
 
 }
 func PedirPozo(){
