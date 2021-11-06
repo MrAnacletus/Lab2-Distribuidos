@@ -12,7 +12,7 @@ import (
 
 func EnviarPeticionJugar(){
 	//Se establece la conexión con el servidor
-	conn, err := grpc.Dial("localhost:50051",grpc.WithInsecure())
+	conn, err := grpc.Dial("10.6.40.218:8080",grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Error al conectarse con el servidor Lider: %v", err)
 	}
