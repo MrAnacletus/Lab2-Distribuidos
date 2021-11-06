@@ -99,7 +99,7 @@ func juego1()(bool){
 		}
 
 		//Juego de los bots
-		for i:= 1; i < 17; i++ {
+		for i:= 1; i < 16; i++ {
 			if ListaJugadores[i].Estado == 1 {
 				numero2 := rand.Intn(10) + 1
 				var j = Jugada{ID: ListaJugadores[i].ID, jugada: int32(numero2)}
