@@ -37,7 +37,7 @@ func failOnError(err error, msg string) {
 
 func main() {
 	go ServidorPozo()
-	conn, err := amqp.Dial("amqp://guest:guest@10.6.40.220:8080/vhost")
+	conn, err := amqp.Dial("amqp://guest:guest@10.6.40.220:8081/vhost")
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
