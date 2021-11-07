@@ -177,7 +177,7 @@ func juego1()(bool){
 			}
 		}
 	}
-	// Pedir los muertos
+	
 	return true
 }
 
