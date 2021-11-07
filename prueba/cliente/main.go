@@ -7,6 +7,7 @@ import (
 	"math/rand"
 
 	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
+
 	"google.golang.org/grpc"
 )
 
@@ -177,7 +178,7 @@ func juego1()(bool){
 			}
 		}
 	}
-	
+
 	return true
 }
 
@@ -364,6 +365,7 @@ func juego3()(bool){
 	}
 	return true
 }
+
 
 func main(){
 	for i := 0; i < 16; i++ {

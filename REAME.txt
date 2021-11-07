@@ -16,3 +16,5 @@ Para correr los diferentes servicios de GO se deben utilizar los siguientes coma
     En la maquina virtual dist79 se encuentra alojado el servicio NameNode, que se debe ejecutar con: make run NameNode
     En la maquina virtual dist80 se encuentra alojado el servicio Pozo, que se debe ejecutar con: make run Pozo
 
+El archivo Makefile se encuentra dentro de la carpeta pruebas, que es el entorno de desarrollo que se utilizó para esta entrega.
+

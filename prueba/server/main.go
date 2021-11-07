@@ -9,6 +9,7 @@ import (
 	"net"
 
 	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
+	amqp "github.com/rabbitmq/amqp091-go"
 	"google.golang.org/grpc"
 )
 type server struct{
@@ -170,6 +171,44 @@ func (s *server) RequestPozo(ctx context.Context, in *pb.RequestPozoActual) (*pb
 	}
 	return res, nil
 }
+
+func failOnError(err error, msg string) {
+	if err != nil {
+		log.Fatalf("%s: %s", msg, err)
+	}
+}
+
+func sender(ID string) {
+	conn, err := amqp.Dial("amqp://guest:guest@10.6.40.220:8080/vhost")
+	failOnError(err, "Failed to connect to RabbitMQ")
+	defer conn.Close()
+
+	ch, err := conn.Channel()
+	failOnError(err, "Failed to open a channel")
+	defer ch.Close()
+
+	q, err := ch.QueueDeclare(
+		"Canal1", // name
+		false,   // durable
+		false,   // delete when unused
+		false,   // exclusive
+		false,   // no-wait
+		nil,     // arguments
+	)
+	failOnError(err, "Failed to declare a queue")
+	err = ch.Publish(
+	"",     // exchange
+	q.Name, // routing key
+	false,  // mandatory
+	false,  // immediate
+	amqp.Publishing{
+		ContentType: "text/plain",
+		Body:        []byte(ID),
+	})
+	failOnError(err, "Failed to publish a message")
+	log.Printf(" [x] Sent %s", ID)
+}
+
 
 func ServidorCliente(){
 	fmt.Println("Servidor Lider Iniciado")
