@@ -28,7 +28,7 @@ func ServidorPozo(){
 	if err != nil {
 		log.Fatalf("No se pudo iniciar el servidor %v", err)
 	}
-
+	log.Println("Servidor Pozo Iniciado")
 	s := grpc.NewServer()
 	pb.RegisterPozoServiceServer(s, &server{})
 	if err:= s.Serve(listener); err != nil {

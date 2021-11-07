@@ -56,6 +56,8 @@ func (s *server) SendJugada2(ctx context.Context, in *pb.Jugada2) (*pb.Resultado
 	// ID2 := in.GetID2()
 	T1 := in.GetJugada1()
 	T2 := in.GetJugada2()
+	//Enviar jugadas a NameNode
+
 
 	JugadaLider := (rand.Intn(4) + 1) % 2
 
@@ -112,10 +114,6 @@ func (s *server) SendJugada3 (ctx context.Context, in *pb.Jugada3) (*pb.Resultad
 
 }
 
-func abs(i int) {
-	panic("unimplemented")
-}
-
 
 func (s *server) RequestPozo(ctx context.Context, in *pb.RequestPozoActual) (*pb.ResponsePozoActual, error) {
 	// Enviarla a Pozo
@@ -137,6 +135,7 @@ func (s *server) RequestPozo(ctx context.Context, in *pb.RequestPozoActual) (*pb
 }
 
 func ServidorCliente(){
+	fmt.Println("Servidor Lider Iniciado")
 	listener , err := net.Listen("tcp", ":8080")
 	if err != nil {
 		log.Fatalf("No se pudo iniciar el server: %v",err)

@@ -24,8 +24,8 @@ message Resultado{
 message Jugada2{
     repeated int32 ID1 = 1;
     repeated int32 ID2 = 2;
-    int32 Jugada1 = 3;
-    int32 Jugada2 = 4;
+    repeated int32 Jugada1 = 3;
+    repeated int32 Jugada2 = 4;
 }
 
 message Jugada3{

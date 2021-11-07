@@ -26,7 +26,7 @@ func ServidorNameNode(){
 		fmt.Println("Error al iniciar el servidor")
 		return
 	}
-	fmt.Println("Servidor iniciado")
+	fmt.Println("Servidor NameNode Iniciado")
 	s := grpc.NewServer()
 	pb.RegisterNameNodeServiceServer(s, &server{})
 	if err:= s.Serve(listener); err != nil{
