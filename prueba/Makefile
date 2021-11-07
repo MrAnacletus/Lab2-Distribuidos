@@ -8,7 +8,7 @@ run-Cliente:
 	go run cliente/main.go
 
 run-Pozo:
-	go run Pozo/main.go
+	go run pozo/main.go
 
 README:
 	nano README.txt
