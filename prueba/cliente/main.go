@@ -136,7 +136,7 @@ func juego1()(bool){
 	fmt.Println("--------------------------------------------------------O--------------------------------------------------------")
 	fmt.Println("Primer Juego!!!!!!!!!!")
 	var suma int32 = 0
-	for i := 0; i < 4; i++ {
+	for i := 0; i < 1; i++ {
 		if ListaJugadores[0].Estado == 1 {
 			fmt.Println("Es tu turno")
 			fmt.Println("Selecciona una jugada")
