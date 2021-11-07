@@ -249,6 +249,8 @@ var LiderService_ServiceDesc = grpc.ServiceDesc{
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type NameNodeServiceClient interface {
 	SendJugada(ctx context.Context, in *Jugada, opts ...grpc.CallOption) (*HelloReply, error)
+	SendJugada2(ctx context.Context, in *Jugada2, opts ...grpc.CallOption) (*HelloReply, error)
+	SendJugada3(ctx context.Context, in *Jugada3, opts ...grpc.CallOption) (*HelloReply, error)
 	GetJugadas(ctx context.Context, in *RequestJugadas, opts ...grpc.CallOption) (*HelloReply, error)
 }
 
@@ -269,6 +271,24 @@ func (c *nameNodeServiceClient) SendJugada(ctx context.Context, in *Jugada, opts
 	return out, nil
 }
 
+func (c *nameNodeServiceClient) SendJugada2(ctx context.Context, in *Jugada2, opts ...grpc.CallOption) (*HelloReply, error) {
+	out := new(HelloReply)
+	err := c.cc.Invoke(ctx, "/grpc.NameNodeService/SendJugada2", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nameNodeServiceClient) SendJugada3(ctx context.Context, in *Jugada3, opts ...grpc.CallOption) (*HelloReply, error) {
+	out := new(HelloReply)
+	err := c.cc.Invoke(ctx, "/grpc.NameNodeService/SendJugada3", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *nameNodeServiceClient) GetJugadas(ctx context.Context, in *RequestJugadas, opts ...grpc.CallOption) (*HelloReply, error) {
 	out := new(HelloReply)
 	err := c.cc.Invoke(ctx, "/grpc.NameNodeService/GetJugadas", in, out, opts...)
@@ -283,6 +303,8 @@ func (c *nameNodeServiceClient) GetJugadas(ctx context.Context, in *RequestJugad
 // for forward compatibility
 type NameNodeServiceServer interface {
 	SendJugada(context.Context, *Jugada) (*HelloReply, error)
+	SendJugada2(context.Context, *Jugada2) (*HelloReply, error)
+	SendJugada3(context.Context, *Jugada3) (*HelloReply, error)
 	GetJugadas(context.Context, *RequestJugadas) (*HelloReply, error)
 	mustEmbedUnimplementedNameNodeServiceServer()
 }
@@ -293,6 +315,12 @@ type UnimplementedNameNodeServiceServer struct {
 
 func (UnimplementedNameNodeServiceServer) SendJugada(context.Context, *Jugada) (*HelloReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendJugada not implemented")
+}
+func (UnimplementedNameNodeServiceServer) SendJugada2(context.Context, *Jugada2) (*HelloReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendJugada2 not implemented")
+}
+func (UnimplementedNameNodeServiceServer) SendJugada3(context.Context, *Jugada3) (*HelloReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendJugada3 not implemented")
 }
 func (UnimplementedNameNodeServiceServer) GetJugadas(context.Context, *RequestJugadas) (*HelloReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetJugadas not implemented")
@@ -328,6 +356,42 @@ func _NameNodeService_SendJugada_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _NameNodeService_SendJugada2_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Jugada2)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NameNodeServiceServer).SendJugada2(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grpc.NameNodeService/SendJugada2",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NameNodeServiceServer).SendJugada2(ctx, req.(*Jugada2))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NameNodeService_SendJugada3_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Jugada3)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NameNodeServiceServer).SendJugada3(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/grpc.NameNodeService/SendJugada3",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NameNodeServiceServer).SendJugada3(ctx, req.(*Jugada3))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _NameNodeService_GetJugadas_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RequestJugadas)
 	if err := dec(in); err != nil {
@@ -356,6 +420,14 @@ var NameNodeService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SendJugada",
 			Handler:    _NameNodeService_SendJugada_Handler,
+		},
+		{
+			MethodName: "SendJugada2",
+			Handler:    _NameNodeService_SendJugada2_Handler,
+		},
+		{
+			MethodName: "SendJugada3",
+			Handler:    _NameNodeService_SendJugada3_Handler,
 		},
 		{
 			MethodName: "GetJugadas",

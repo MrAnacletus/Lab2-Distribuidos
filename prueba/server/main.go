@@ -50,12 +50,21 @@ func (s *server) SendJugada(ctx context.Context, in *pb.Jugada) (*pb.Resultado, 
 	return &pb.Resultado{ID: in.GetID(),Estado: 1}, nil
 }
 
+func sum(array []int32) int32 { 
+	var sum int32
+	sum = 0
+	for _, v := range array {  
+		sum += v  
+	}  
+	return sum
+   }  
+
 func (s *server) SendJugada2(ctx context.Context, in *pb.Jugada2) (*pb.Resultado, error) {
 	//Recibir las jugadas
-	// ID1 := in.GetID1()
-	// ID2 := in.GetID2()
-	T1 := in.GetJugada1()
-	T2 := in.GetJugada2()
+	ID1 := in.GetID1()
+	ID2 := in.GetID2()
+	T1 := sum(in.GetJugada1())
+	T2 := sum(in.GetJugada2())
 	//Enviar jugadas a NameNode
 
 
@@ -63,35 +72,36 @@ func (s *server) SendJugada2(ctx context.Context, in *pb.Jugada2) (*pb.Resultado
 
 	if JugadaLider == 0{
 		if  T1%2 == 0 && T2%2 == 0{
-			return &pb.Resultado{ID: 1,Estado: 1}, nil
+			resultado := &pb.Resultado{ID: 1,Estado: 1}
 		}else if T1%2 == 1 && T2%2 == 1{
 			Decididor := rand.Intn(1)
 			if Decididor == 0{
-				return &pb.Resultado{ID: 1,Estado: 0}, nil
+				resultado := &pb.Resultado{ID: 1,Estado: 0}
 			}else{
-				return &pb.Resultado{ID: 0,Estado: 1}, nil
+				resultado := &pb.Resultado{ID: 0,Estado: 1}
 			}
 		}else if T1%2 == 0 && T2%2 == 1{
-			return &pb.Resultado{ID: 1,Estado: 0}, nil
+			resultado := &pb.Resultado{ID: 0,Estado: 1}
 		}else{
-			return &pb.Resultado{ID: 0,Estado: 1}, nil
+			resultado := &pb.Resultado{ID: 1,Estado: 0}
 		}
 	}else{
 		if  T1%2 == 1 && T2%2 == 1{
-			return &pb.Resultado{ID: 1,Estado: 1}, nil
+			resultado := &pb.Resultado{ID: 1,Estado: 1}
 		}else if T1%2 == 0 && T2%2 == 0{
 			Decididor := rand.Intn(1)
 			if Decididor == 0{
-				return &pb.Resultado{ID: 1,Estado: 0}, nil
+				resultado := &pb.Resultado{ID: 1,Estado: 0}
 			}else{
-				return &pb.Resultado{ID: 0,Estado: 1}, nil
+				resultado := &pb.Resultado{ID: 0,Estado: 1}
 			}
 		}else if T1%2 == 0 && T2%2 == 1{
-			return &pb.Resultado{ID: 0,Estado: 1}, nil
+			resultado := &pb.Resultado{ID: 0,Estado: 1}
 		}else{
-			return &pb.Resultado{ID: 1,Estado: 0}, nil
+			resultado := &pb.Resultado{ID: 1,Estado: 0}
 		}
 	}
+	
 }
 
 func (s *server) SendJugada3 (ctx context.Context, in *pb.Jugada3) (*pb.Resultado, error) {

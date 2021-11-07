@@ -50,6 +50,8 @@ message RequestJugadas{
 
 service NameNodeService{
     rpc SendJugada (Jugada) returns (HelloReply);
+    rpc SendJugada2 (Jugada2) returns (HelloReply);
+    rpc SendJugada3 (Jugada3) returns (HelloReply);
     rpc GetJugadas (RequestJugadas) returns (HelloReply);
 }
 
