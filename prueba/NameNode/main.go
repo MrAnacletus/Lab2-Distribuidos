@@ -14,6 +14,7 @@ type server struct{
 }
 
 func (s *server) SendJugada(ctx context.Context, in *pb.Jugada) (*pb.HelloReply, error) {
+	fmt.Println("Jugada del Juego 1 Recibida")
 	return &pb.HelloReply{Message: "Jugada Recibida"}, nil
 }
 
@@ -22,10 +23,12 @@ func (s *server) GetJugada(ctx context.Context, in *pb.RequestJugadas) (*pb.Hell
 }
 
 func (s *server) SendJugada2(ctx context.Context, in *pb.Jugada2) (*pb.HelloReply, error) {
+	fmt.Println("Jugada del Juego 2 Recibida")
 	return &pb.HelloReply{Message: "Jugada Recibida"}, nil
 }
 
 func (s *server) SendJugada3(ctx context.Context, in *pb.Jugada3) (*pb.HelloReply, error) {
+	fmt.Println("Jugada del Juego 3 Recibida")
 	return &pb.HelloReply{Message: "Jugada Recibida"}, nil
 }
 func ServidorNameNode(){
