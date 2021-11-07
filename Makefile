@@ -5,7 +5,7 @@ run-NameNode:
 	go run prueba/NameNode/main.go
 
 run-Cliente:
-	go run prueba/client/main.go
+	go run prueba/cliente/main.go
 
 run-Pozo:
 	go run prueba/Pozo/main.go
