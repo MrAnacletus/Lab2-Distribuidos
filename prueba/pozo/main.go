@@ -70,6 +70,9 @@ func main() {
 
 	for d := range msgs {
 		log.Printf("Received a message: %s", d.Body)
+		mutex.Lock()
+		POZOACTUAL = POZOACTUAL + 100000000
+		mutex.Unlock()
 	}
 
 	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
