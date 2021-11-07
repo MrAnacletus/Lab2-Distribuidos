@@ -17,8 +17,8 @@ type Jugada struct {
 type Jugada2 struct{
 	ID1 []int32
 	ID2 []int32
-	Jugada1 int32
-	Jugada2 int32
+	Jugada1 []int32
+	Jugada2 []int32
 }
 
 type Equipo struct {
@@ -184,6 +184,10 @@ func juego1()(bool){
 func juego2()(bool){
 	fmt.Println("--------------------------------------------------------O--------------------------------------------------------")
 	fmt.Println("Segundo Juego!!!!!!!!!!")
+	var listaT1 []int32
+	var listaT2 []int32
+	var listaJugadas1 []int32
+	var listaJugadas2 []int32
 	var suma1 int32 = 0
 	var suma2 int32 = 0
 	//Dividir los equipos
@@ -231,11 +235,13 @@ func juego2()(bool){
 					fmt.Println("Elija un numero entre 1 y 4, la suma de su equipo debera tener la misma paridad que el numero elegido por el lider")
 					var numero1 int
 					fmt.Scanln(&numero1)
+					listaJugadas1 = append(listaJugadas1, int32(numero1))
 					suma1 += int32(numero1)
 
 				}else{
 					numero2 := rand.Intn(4) + 1
 					suma1 += int32(numero2)
+					listaJugadas1 = append(listaJugadas1, int32(numero2))
 				}
 			}else{
 				if ListaJugadores[i].ID == 1 {
@@ -244,10 +250,12 @@ func juego2()(bool){
 					fmt.Println("Elija un numero entre 1 y 4, la suma de su equipo debera tener la misma paridad que el numero elegido por el lider")
 					var numero1 int
 					fmt.Scanln(&numero1)
+					listaJugadas2 = append(listaJugadas2, int32(numero1))
 					suma2 += int32(numero1)
 
 				}else{
 					numero2 := rand.Intn(4) + 1
+					listaJugadas2 = append(listaJugadas2, int32(numero2))
 					suma2 += int32(numero2)
 				}
 			}
@@ -255,9 +263,6 @@ func juego2()(bool){
 	}
 
 	//Enviar sumas al Lider
-
-	var listaT1 []int32
-	var listaT2 []int32
 	for i := 0; i < 16; i++ {
 		if ListaJugadores[i].Estado == 1 {
 			if ListaJugadores[i].Team == 1 {
@@ -267,7 +272,7 @@ func juego2()(bool){
 			}
 		}
 	}
-	var resultado = EnviarJugada2(Jugada2{ID1: listaT1,ID2: listaT2, Jugada1: suma1, Jugada2: suma2})
+	var resultado = EnviarJugada2(Jugada2{ID1: listaT1,ID2: listaT2, Jugada1: listaJugadas1, Jugada2: listaJugadas2})
 	//Recorrer los jugadores
 	for i := 0; i < 16; i++{
 		if ListaJugadores[i].Estado == 1{

@@ -20,6 +20,14 @@ func (s *server) SendJugada(ctx context.Context, in *pb.Jugada) (*pb.HelloReply,
 func (s *server) GetJugada(ctx context.Context, in *pb.RequestJugadas) (*pb.HelloReply, error) {
 	return &pb.HelloReply{Message: "Jugada Recibida"}, nil
 }
+
+func (s *server) SendJugada2(ctx context.Context, in *pb.Jugada2) (*pb.HelloReply, error) {
+	return &pb.HelloReply{Message: "Jugada Recibida"}, nil
+}
+
+func (s *server) SendJugada3(ctx context.Context, in *pb.Jugada3) (*pb.HelloReply, error) {
+	return &pb.HelloReply{Message: "Jugada Recibida"}, nil
+}
 func ServidorNameNode(){
 	listener , err := net.Listen("tcp", ":8080")
 	if err != nil{

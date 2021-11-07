@@ -69,39 +69,53 @@ func (s *server) SendJugada2(ctx context.Context, in *pb.Jugada2) (*pb.Resultado
 
 
 	JugadaLider := (rand.Intn(4) + 1) % 2
-
+	var resultado [2]int32
 	if JugadaLider == 0{
 		if  T1%2 == 0 && T2%2 == 0{
-			resultado := &pb.Resultado{ID: 1,Estado: 1}
+			resultado = [2]int32{1,1} 
 		}else if T1%2 == 1 && T2%2 == 1{
 			Decididor := rand.Intn(1)
 			if Decididor == 0{
-				resultado := &pb.Resultado{ID: 1,Estado: 0}
+				resultado = [2]int32{1,0}
 			}else{
-				resultado := &pb.Resultado{ID: 0,Estado: 1}
+				resultado = [2]int32{0,1}
 			}
 		}else if T1%2 == 0 && T2%2 == 1{
-			resultado := &pb.Resultado{ID: 0,Estado: 1}
+			resultado = [2]int32{0,1}
 		}else{
-			resultado := &pb.Resultado{ID: 1,Estado: 0}
+			resultado = [2]int32{1,0}
 		}
 	}else{
 		if  T1%2 == 1 && T2%2 == 1{
-			resultado := &pb.Resultado{ID: 1,Estado: 1}
+			resultado = [2]int32{1,1}
 		}else if T1%2 == 0 && T2%2 == 0{
 			Decididor := rand.Intn(1)
 			if Decididor == 0{
-				resultado := &pb.Resultado{ID: 1,Estado: 0}
+				resultado = [2]int32{1,0}
 			}else{
-				resultado := &pb.Resultado{ID: 0,Estado: 1}
+				resultado = [2]int32{0,1}
 			}
 		}else if T1%2 == 0 && T2%2 == 1{
-			resultado := &pb.Resultado{ID: 0,Estado: 1}
+			resultado = [2]int32{0,1}
 		}else{
-			resultado := &pb.Resultado{ID: 1,Estado: 0}
+			resultado = [2]int32{1,0}
 		}
 	}
-	
+	//Enviar las jugadas a NameNode
+	conn, err := grpc.Dial("10.6.40.219:8080",grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("No se pudo conectar con el server NameNode: %v",err)
+	}
+	defer conn.Close()
+
+	//Se crea un cliente para la conexion
+	serviceClient := pb.NewNameNodeServiceClient(conn)
+	//Se envia la jugada para que sea escrita en el archivo
+	_, err = serviceClient.SendJugada2(context.Background(), &pb.Jugada2{ID1: ID1, ID2: ID2, Jugada1: in.GetJugada1(), Jugada2: in.GetJugada2()})
+	if err != nil {
+		log.Fatalf("No se pudo enviar la jugada: %v",err)
+	}
+	return &pb.Resultado{ID: resultado[0],Estado: resultado[1]}, nil
 }
 
 func (s *server) SendJugada3 (ctx context.Context, in *pb.Jugada3) (*pb.Resultado, error) {
@@ -110,7 +124,20 @@ func (s *server) SendJugada3 (ctx context.Context, in *pb.Jugada3) (*pb.Resultad
 	ID2 := in.ID2
 	jugada1 := in.Jugada1
 	jugada2 := in.Jugada2
+	//Enviar jugadas a NameNode
+	conn, err := grpc.Dial("10.6.40.219:8080",grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("No se pudo conectar con el server NameNode: %v",err)
+	}
+	defer conn.Close()
 
+	//Se crea un cliente para la conexion
+	serviceClient := pb.NewNameNodeServiceClient(conn)
+	//Se envia la jugada para que sea escrita en el archivo
+	_, err = serviceClient.SendJugada3(context.Background(), &pb.Jugada3{ID1: ID1, ID2: ID2, Jugada1: jugada1, Jugada2: jugada2})
+	if err != nil {
+		log.Fatalf("No se pudo enviar la jugada: %v",err)
+	}
 	//Lider debe elegir un numero entre 1 y 10
 	JugadaLider := rand.Intn(10) + 1
 	//Calcular distancias con el lider
