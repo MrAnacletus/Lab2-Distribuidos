@@ -314,6 +314,7 @@ func juego3()(bool){
 				flag = false
 			}else{
 				TIMS[Vivos/2 - 1 - equipos].ID2 = ListaJugadores[i].ID
+				flag = true
 			}
 		}
 	}
