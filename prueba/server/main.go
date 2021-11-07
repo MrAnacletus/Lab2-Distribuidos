@@ -50,10 +50,12 @@ func (s *server) SendJugada(ctx context.Context, in *pb.Jugada) (*pb.Resultado, 
 	return &pb.Resultado{ID: in.GetID(),Estado: 1}, nil
 }
 
-func (s *server) SendJugada2(ctx context.Context, in *pb.Jugada) (*pb.Resultado, error) {
+func (s *server) SendJugada2(ctx context.Context, in *pb.Jugada2) (*pb.Resultado, error) {
 	//Recibir las jugadas
-	T1 := in.GetID()
-	T2 := in.GetJugada()
+	// ID1 := in.GetID1()
+	// ID2 := in.GetID2()
+	T1 := in.GetJugada1()
+	T2 := in.GetJugada2()
 
 	JugadaLider := (rand.Intn(4) + 1) % 2
 
