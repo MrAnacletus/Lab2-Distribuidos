@@ -2,11 +2,12 @@ package main
 
 import (
 	"context"
-	"math/rand"
-	"math"
 	"fmt"
 	"log"
+	"math"
+	"math/rand"
 	"net"
+	"strconv"
 
 	pb "github.com/MrAnacletus/Lab2-Distribuidos/prueba/proto"
 	amqp "github.com/rabbitmq/amqp091-go"
@@ -46,6 +47,7 @@ func (s *server) SendJugada(ctx context.Context, in *pb.Jugada) (*pb.Resultado, 
 	JugadaLider := rand.Intn(4) + 6
 	if JugadaLider <= int(in.GetJugada()){
 		//Notificar a pozo que alguien murio por rabbitmq
+		sender(strconv.Itoa(int(in.GetID())))
 		return &pb.Resultado{ID: in.GetID(),Estado: 0}, nil
 	}
 	return &pb.Resultado{ID: in.GetID(),Estado: 1}, nil
