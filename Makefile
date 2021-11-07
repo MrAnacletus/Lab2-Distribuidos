@@ -1,13 +1,13 @@
-run Lider:
+run-Lider:
 	go run prueba/server/main.go
 
-run NameNode:
+run-NameNode:
 	go run prueba/NameNode/main.go
 
-run Cliente:
+run-Cliente:
 	go run prueba/client/main.go
 
-run Pozo:
+run-Pozo:
 	go run prueba/Pozo/main.go
 
 README:
