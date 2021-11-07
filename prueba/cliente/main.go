@@ -395,8 +395,25 @@ func main(){
 						fmt.Println("El ganador es el jugador " + fmt.Sprint(ListaJugadores[i].ID))
 					}
 				}
-				break
+				fmt.Println("Selecciona que vas a hacer:")
+				fmt.Println("1. Jugar")
+				fmt.Println("2. Ver pozo")
+				fmt.Scanln(&opcion)
+				if opcion == 1 {
+					break
+				}else{
+					PedirPozo()
+				}
 			}
+			fmt.Println("Selecciona que vas a hacer:")
+				fmt.Println("1. Jugar")
+				fmt.Println("2. Ver pozo")
+				fmt.Scanln(&opcion)
+				if opcion == 1 {
+					continue
+				}else{
+					PedirPozo()
+				}
 			if !juego2(){
 				fmt.Println("El juego ha terminado, y tenemos un ganador!!!!!!!!!")
 				for i := 0; i < 16; i++ {
@@ -414,21 +431,22 @@ func main(){
 					PedirPozo()
 				}
 			}
+			fmt.Println("Selecciona que vas a hacer:")
+			fmt.Println("1. Jugar")
+			fmt.Println("2. Ver pozo")
+			fmt.Scanln(&opcion)
+			if opcion == 1 {
+				continue
+
+			}else{
+				PedirPozo()
+			}
 			if !juego3(){
 				fmt.Println("El juego ha terminado, y tenemos un ganador!!!!!!!!!")
 				for i := 0; i < 16; i++ {
 					if ListaJugadores[i].Estado == 1 {
 						fmt.Println("El ganador es el jugador " + fmt.Sprint(ListaJugadores[i].ID))
 					}
-				}
-				fmt.Println("Selecciona que vas a hacer:")
-				fmt.Println("1. Jugar")
-				fmt.Println("2. Ver pozo")
-				fmt.Scanln(&opcion)
-				if opcion == 1 {
-					break
-				}else{
-					PedirPozo()
 				}
 			}else{
 				fmt.Println("El juego ha terminado, y tenemos varios ganadores, filicitaciones a :")
@@ -455,6 +473,11 @@ func main(){
 		fmt.Println("1. Jugar")
 		fmt.Println("2. Ver pozo")
 		fmt.Scanln(&opcion)
+		if opcion == 1 {
+			break
+		}else{
+			PedirPozo()
+		}
 	}
 	
 }
