@@ -23,7 +23,6 @@ type Jugada struct {
 
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	fmt.Println("Peticion recibida, aceptando juego")
-	sender("HOLA CTM")
 	return &pb.HelloReply{Message: "Juego aceptado"}, nil
 }
 
@@ -118,6 +117,16 @@ func (s *server) SendJugada2(ctx context.Context, in *pb.Jugada2) (*pb.Resultado
 	if err != nil {
 		log.Fatalf("No se pudo enviar la jugada: %v",err)
 	}
+	if resultado[0] == 0{
+		for i:=0; i<len(ID1); i++{
+			sender(strconv.Itoa(int(ID1[i])))
+		}
+	if resultado[1] == 0{
+		for i:=0; i<len(ID2); i++{
+			sender(strconv.Itoa(int(ID2[i])))
+		}
+	}
+	}
 	return &pb.Resultado{ID: resultado[0],Estado: resultado[1]}, nil
 }
 
@@ -148,8 +157,10 @@ func (s *server) SendJugada3 (ctx context.Context, in *pb.Jugada3) (*pb.Resultad
 	Distancia2 := math.Abs(float64(JugadaLider - int(jugada2)))
 	//Decidir al ganador
 	if Distancia1 < Distancia2{
+		sender(strconv.Itoa(int(ID2)))
 		return &pb.Resultado{ID: ID1,Estado: 1}, nil
 	}
+	sender(strconv.Itoa(int(ID1)))
 	return &pb.Resultado{ID: ID2,Estado: 1}, nil
 
 }
